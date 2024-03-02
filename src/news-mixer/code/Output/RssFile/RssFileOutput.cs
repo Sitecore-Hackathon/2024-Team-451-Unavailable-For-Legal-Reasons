@@ -48,7 +48,7 @@ namespace NewsMixer.Output.RssFile
 
         private SyndicationFeed CreateFeed()
         {
-            return new SyndicationFeed("Title", "Description", new Url("https://github.com"), "RSSUrl", DateTime.Now)
+            return new SyndicationFeed(_config.FeedTitle, _config.FeedDescription, _config.FeedUrl)
             {
                 Generator = "Team 451 News Mixer"
             };

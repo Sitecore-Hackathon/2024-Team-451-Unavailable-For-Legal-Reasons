@@ -29,12 +29,16 @@ var pipeline = new Pipeline().AddInput(source)
                 Digest = DigestFormat.Daily,
                 FileFormatPattern = "poet-daily-{date}.rss",
                 OutputFolder = outputFolder,
+                FeedTitle = "Your poet's daily update",
+                FeedDescription = "Summaries from a romantic poet"
             }),
             new RssFileOutput(new RssFileConfiguration
             {
                 Digest = DigestFormat.Weekly,
                 FileFormatPattern = "poet-weekly-{date}.rss",
                 OutputFolder = outputFolder,
+                FeedTitle = "Your poet's weekly update",
+                FeedDescription = "Summaries from a romantic poet"
             }),
             new ConsoleOutput("[Poet] ")
         );
@@ -55,12 +59,16 @@ var pipeline = new Pipeline().AddInput(source)
                 Digest = DigestFormat.Daily,
                 FileFormatPattern = "gossipy-daily-{date}-da-DK.rss",
                 OutputFolder = outputFolder,
+                FeedTitle = "Your editor's daily update",
+                FeedDescription = "Summaries from an editor"
             }),
             new RssFileOutput(new RssFileConfiguration
             {
                 Digest = DigestFormat.Weekly,
                 FileFormatPattern = "gossipy-weekly-{date}-da-DK.rss",
                 OutputFolder = outputFolder,
+                FeedTitle = "Your editor's weekely update",
+                FeedDescription = "Summaries from an editor"
             }),
             new ConsoleOutput("[Gossipy] ")
         );

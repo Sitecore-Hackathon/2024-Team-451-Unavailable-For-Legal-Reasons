@@ -10,6 +10,12 @@ namespace NewsMixer.Output.RssFile
 
         public DigestFormat Digest { get; set; }
 
+        public string FeedTitle { get; set; } = "Title";
+        public string FeedDescription { get; set; } = "";
+        public Uri SiteUrl { get; set; } = new("https://valtech.com");
+        public Uri FeedUrl { get; set; } = new("https://valtech.com");
+
+
         public void EnsureOutputFolder()
         {
             if (!Directory.Exists(OutputFolder)) { Directory.CreateDirectory(OutputFolder); }
