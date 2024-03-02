@@ -1,0 +1,26 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>NewsMixer</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="InputSources\SitecoreGraph\SitecoreTemplatesGraph.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="InputSources\SitecoreGraph\SitecoreTemplatesGraph.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="InputSources\DummySource\" />
+    <Folder Include="Output\RssFile\" />
+    <Folder Include="Transforms\DummySummary\" />
+    <Folder Include="Transforms\OpenAiSummary\" />
+  </ItemGroup>
+
+</Project>
