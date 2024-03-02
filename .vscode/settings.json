@@ -28,5 +28,6 @@
     "Hackathon",
     "msbuild",
     "newsmixer"
-  ]
+  ],
+  "plantuml.exportOutDir": "."
 }
