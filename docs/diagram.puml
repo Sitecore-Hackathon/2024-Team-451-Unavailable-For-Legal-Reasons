@@ -6,7 +6,8 @@
 !define SEARCHLOGO <img:SCSPRITES/search-64.png?raw=true>
 !define SENDLOGO <img:SCSPRITES/send-64.png?raw=true>
 !define OPENAILOGO <img:https://dwglogo.com/wp-content/uploads/2019/03/1600px-OpenAI_logo-100x70.png>
-!define SLACKLOGO <img:https://previews.us-east-1.widencdn.net/preview/48045879/assets/asset-view/0cece34e-cbb7-4c6f-be3e-d475baeb3a8d/thumbnail/eyJ3Ijo0ODAsImgiOjQ4MCwic2NvcGUiOiJhcHAifQ==?Expires=1709413200&Signature=Jy1lQNwOy~JBeLKvMIiuRmGIJDbLN6-soHQRCku2MX5O6pz9S6V92J-xr-TImumb5MblriL9tRwBkq4MrvtZ9-fin8s3ELEFjS1NxSd21DOd8lE-FOFZxb87glxII9qRnrFo7vDBPm71x925s9j7r~7sejfVi9uFEAOwfZJ4yeNNUOrFr~OuafUlXfmV1DOiaFObmW~vdmalfNTt6chnimdGQIsUuWjgta336~tLJz~5CLOZBtkdamfRJk1S9lusfw8znYW~3zx9voBXRwEOnIkRdBLIfUbe89G9ZXGbZ7lRgJAuHknA1SiC07sMrP~hsUEP4kXN8QFnE2zrrCg6fQ__&Key-Pair-Id=APKAJM7FVRD2EPOYUXBQ{scale=0.25}>
+!define SLACKLOGO <img:https://images.squarespace-cdn.com/content/v1/62460a56418af8236d4f3fee/129e20df-c522-48f8-a530-a276da302a7e/Stormboard%2Band%2BSlack.png?format=100w{scale=0.7}>
+!define RSSICON <img:https://icons.iconarchive.com/icons/paomedia/small-n-flat/256/rss-icon.png{scale=0.2}>
 
 together {
     rectangle "Sitecore XM/XP\nXPLOGO" as xm
@@ -15,13 +16,13 @@ together {
     rectangle "Sitecore Search\nSEARCHLOGO" as search
 }
 rectangle "Slack\nSLACKLOGO" as slack
-file "RSS feed" as rss
+file "RSS feed\nRSSICON" as rss
 rectangle "Open AI\nOPENAILOGO" as ai
 
 frame "NewsMixer" {
     frame "Input sources" as sources <<layer>> {
         component "GraphQL Endpoint\nInput Source"   as sc_source
-        component "Sitecore Search \nInput Source"  as search_source<<proposal>>
+        component "Sitecore Search \nInput Source"  as search_source
         component "Slack \nInput Source"     as slack_source<<proposal>>
         sc_source -.up-> xm
         sc_source -.up-> xmc
@@ -31,6 +32,8 @@ frame "NewsMixer" {
     frame "Transforms pipeline" as transform <<layer>> {
         component "OpenAI Transform" as ai_transform
         ai_transform -right.-> ai : Article summary, style, translation
+        'component "OpenAI Translate" as ai_translate
+        'ai_translate -right.-> ai : Translate title
     }
 
     frame "Output types" as output <<layer>> {
@@ -53,10 +56,13 @@ skinparam frame<<layer>> {
     RoundCorner 20
 }
 
-skinparam rectangle {
-    BackgroundColor white
-    BorderThickness 2px
-    FontStyle Bold
+skinparam {
+    RectangleBackgroundColor white
+    RectangleBorderThickness 2px
+    RectangleFontStyle Bold
+    FileBackgroundColor white
+    FileBorderThickness 2px
+    FileFontStyle Bold
 }
 
 skinparam component {
