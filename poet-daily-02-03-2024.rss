@@ -2,37 +2,17 @@
 <rss
   xmlns:a10="http://www.w3.org/2005/Atom"
   version="2.0">
-  <channel>
-    <title>Title</title>
-    <link>https://github.com/</link>
-    <description>Description</description>
-    <lastBuildDate>Sat, 02 Mar 2024 17:25:31 +0100</lastBuildDate>
+  <channel
+    xml:base="https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-daily.rss">
+    <title>Your poet's daily update</title>
+    <link>https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-daily.rss</link>
+    <description>Summaries from a romantic poet</description>
     <generator>Team 451 News Mixer</generator>
-    <a10:id>RSSUrl</a10:id>
+    <a10:id>poet-daily</a10:id>
     <item>
       <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
-      <description>Sitecore launches XM Cloud, Valtech Catalyst saves time, cost, boosts quality for multi-brand sites. Automates deployment, enhance brand experience swiftly, efficiently. Sitecore partnership with Valtech ensures customer's success and innovation.</description>
-      <pubDate>Sat, 02 Mar 2024 17:25:29 +0100</pubDate>
-      <a10:link
-        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
-    </item>
-    <item>
-      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
-      <description>[en] Sitecore releases XM Cloud,
-Deploy sites faster, cost is low.
-Valtech Catalyst shines bright,
-Automates for brand sites right.
-
-Multibrand firms find relief,
-Valtech Catalyst, a belief.
-Tech, content, design unite,
-Efficient, quick, take flight.
-
-Automated rollouts soar,
-Sitecore powered, times no more.
-Efficiency is key,
-Valtech Catalyst, come see.</description>
-      <pubDate>Sat, 02 Mar 2024 17:36:43 +0100</pubDate>
+      <description>[en] Sitecore's XM Cloud speeds up brand site deployment. The Valtech Catalyst automates this process, reducing time and cost. It enhances consistency and quality for multi-brand organizations. The Catalyst integrates design systems efficiently, offering a centralized content structure. Utilizing Sitecore XM Cloud, it streamlines brand site rollouts by up to 40%. This innovative tool combines technology, content, and design elements to scale ambitions effectively. The Valtech Catalyst ensures consistent world-class experiences through automated brand styling and quality control. It optimizes the deployment process, reducing time to market and enhancing operational efficiency.</description>
+      <pubDate>Sat, 02 Mar 2024 17:59:26 +0100</pubDate>
       <a10:link
         href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
     </item>
