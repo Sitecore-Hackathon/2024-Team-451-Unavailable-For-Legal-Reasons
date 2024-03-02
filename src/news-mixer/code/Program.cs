@@ -17,15 +17,20 @@ var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
     {
         cfg.AddTransform(
-        new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
+            new OpenAiTitleTranslation(new()
+            {
+                ApiKey = apiKey,
+                Language = "en",
+            }),
+        new OpenAiSummaryTransform(new()
         {
             ApiKey = apiKey,
             AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
-            Language = "English",
+            Language = "en",
         })
         );
         cfg.AddOutput(
-            new RssFileOutput(new RssFileConfiguration
+            new RssFileOutput(new()
             {
                 Digest = DigestFormat.Daily,
                 FileFormatPattern = "poet-daily-{date}.rss",
@@ -36,7 +41,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new RssFileOutput(new RssFileConfiguration
+            new RssFileOutput(new()
             {
                 Digest = DigestFormat.Weekly,
                 FileFormatPattern = "poet-weekly-{date}.rss",
@@ -53,38 +58,73 @@ var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
     {
         cfg.AddTransform(
-        new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
-        {
-            ApiKey = apiKey,
-            AiBehavior = "You are a gossipy news editor who likes to use click-baits and have a victorian writing style",
-            Language = "da-DK"
-        })
+            new OpenAiTitleTranslation(new()
+            {
+                ApiKey = apiKey,
+                Language = "en",
+            }),
+            new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
+            {
+                ApiKey = apiKey,
+                AiBehavior = "You are a gossipy news editor who likes to use click-baits and have a victorian writing style",
+                Language = "en"
+            })
         );
         cfg.AddOutput(
             new RssFileOutput(new RssFileConfiguration
             {
                 Digest = DigestFormat.Daily,
-                FileFormatPattern = "gossipy-daily-{date}-da-DK.rss",
+                FileFormatPattern = "gossipy-daily-{date}-en.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your editor's daily update",
                 FeedDescription = "Summaries from an editor",
-                FeedId = "editor-daily",
+                FeedId = "gossipy-editor-daily",
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
             new RssFileOutput(new RssFileConfiguration
             {
                 Digest = DigestFormat.Weekly,
-                FileFormatPattern = "gossipy-weekly-{date}-da-DK.rss",
+                FileFormatPattern = "gossipy-weekly-{date}-en.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your editor's weekely update",
                 FeedDescription = "Summaries from an editor",
-                FeedId = "editor-daily",
+                FeedId = "gossipy-editor-daily",
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
             new ConsoleOutput("[Gossipy] ")
         );
+    })
+    .AddStream(cfg =>
+    {
+        cfg.AddTransform(
+            new OpenAiTitleTranslation(new()
+            {
+                ApiKey = apiKey,
+                Language = "da-DK",
+            }),
+            new OpenAiSummaryTransform(new()
+            {
+                ApiKey = apiKey,
+                AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
+                Language = "da-DK",
+            })
+            );
+        cfg.AddOutput(
+            new RssFileOutput(new()
+            {
+                Digest = DigestFormat.Weekly,
+                FileFormatPattern = "poet-weekly-{date}-da.rss",
+                OutputFolder = outputFolder,
+                FeedTitle = "Dine lyriske updates",
+                FeedDescription = "Summaries from a romantic poet",
+                FeedId = "poet-daily-da",
+                FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
+                SiteUrl = new Uri($"{baseUrl}")
+            }),
+            new ConsoleOutput("[Poet] ")
+            );
     });
 
 await pipeline.Execute(new CancellationToken());
