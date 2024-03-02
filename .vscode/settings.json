@@ -2,7 +2,6 @@
   "files.associations": {
     "*.sicpackage": "json",
     "*log*.txt": "log",
-    "**/.github/workflows/*.yml": "yaml"
   },
   "json.schemas": [
     {
@@ -24,7 +23,10 @@
       "url": "./.sitecore/schemas/ModuleFile.schema.json"
     }
   ],
-  "yaml.schemas": {
-    "https://json.schemastore.org/github-workflow.json": "./.github/workflows/deploy.yml"
-  }
+  "cSpell.words": [
+    "apikey",
+    "Hackathon",
+    "msbuild",
+    "newsmixer"
+  ]
 }
