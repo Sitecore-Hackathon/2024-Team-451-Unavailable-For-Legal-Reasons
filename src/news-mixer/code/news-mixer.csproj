@@ -17,8 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Output\RssFile\" />
     <Folder Include="Transforms\OpenAiSummary\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.AI.OpenAI" />
   </ItemGroup>
 
 </Project>

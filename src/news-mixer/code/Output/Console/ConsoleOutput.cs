@@ -4,12 +4,17 @@ namespace NewsMixer.Output.Console
 {
     public class ConsoleOutput : IOutput
     {
-        public async Task Execute(IAsyncEnumerable<NewsItem> items, CancellationToken cancellationToken = default)
+        private readonly string _prefix;
+
+        public ConsoleOutput(string prefix = "")
         {
-            await foreach (var itm in items)
-            {
-                System.Console.WriteLine($"{itm.Date}: {itm.Title}\n{itm.Content}");
-            }
+            _prefix = prefix;
+        }
+
+        public Task Execute(NewsItem itm, CancellationToken cancellationToken = default)
+        {
+            System.Console.WriteLine($"{_prefix}{itm.Date:O}: {itm.Title}\n{itm.Content}");
+            return Task.CompletedTask;
         }
     }
 }

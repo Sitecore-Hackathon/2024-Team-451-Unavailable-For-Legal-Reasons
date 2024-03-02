@@ -50,7 +50,10 @@ Best use of AI
 
 ### Configuration
 
-<!-- TODO -->
+An API Key for OpenAI is necessary. It can be specified in one of the following ways:
+* Set OPENAI_APIKEY environment variable on host, eg. by running ``[System.Environment]::SetEnvironmentVariable("OPENAI_APIKEY", "<yourkey>")``
+* Set OPENAI_APIKEY in ``.env`` file (and avoid committing that change) and run with docker compose
+* Set OPENAI_APIKEY environment variable in ``src\news-mixer\code\Properties\launchSettings.json`` and run with Visual Studio
 
 ## Usage instructions
 

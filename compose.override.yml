@@ -182,3 +182,5 @@ services:
     depends_on:
       cm:
         condition: service_healthy
+    environment:
+      OPENAI_APIKEY: ${OPENAI_APIKEY}
