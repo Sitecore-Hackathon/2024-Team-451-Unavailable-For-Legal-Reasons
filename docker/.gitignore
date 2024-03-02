@@ -1,0 +1,13 @@
+/data/cm/logs/*
+!/data/cm/logs/
+!/data/cm/logs/.gitkeep
+/data/sql/*
+!/data/sql/.gitkeep
+/data/solr/*
+!/data/solr/.gitkeep
+
+/data/output/*
+!/data/output/.gitkeep
+
+/deploy/platform/*
+!/deploy/platform/.gitkeep

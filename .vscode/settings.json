@@ -1,0 +1,30 @@
+{
+  "files.associations": {
+    "*.sicpackage": "json",
+    "*log*.txt": "log",
+    "**/.github/workflows/*.yml": "yaml"
+  },
+  "json.schemas": [
+    {
+      "fileMatch": [
+        "/sitecore.json"
+      ],
+      "url": "./.sitecore/schemas/RootConfigurationFile.schema.json"
+    },
+    {
+      "fileMatch": [
+        "/.sitecore/user.json"
+      ],
+      "url": "./.sitecore/schemas/UserConfiguration.schema.json"
+    },
+    {
+      "fileMatch": [
+        "*.module.json"
+      ],
+      "url": "./.sitecore/schemas/ModuleFile.schema.json"
+    }
+  ],
+  "yaml.schemas": {
+    "https://json.schemastore.org/github-workflow.json": "./.github/workflows/deploy.yml"
+  }
+}
