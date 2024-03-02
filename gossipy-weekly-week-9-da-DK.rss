@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:a10="http://www.w3.org/2005/Atom"
+  version="2.0">
+  <channel>
+    <title>Title</title>
+    <link>https://github.com/</link>
+    <description>Description</description>
+    <lastBuildDate>Sat, 02 Mar 2024 17:25:33 +0100</lastBuildDate>
+    <generator>Team 451 News Mixer</generator>
+    <a10:id>RSSUrl</a10:id>
+    <item>
+      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
+      <description>Sitecore har frigivet en ny Experience Manager SaaS-baseret CMS, XM Cloud. Med det nye Valtech Catalyst kan multi-brand organisationer nu implementere deres brandsider på XM Cloud på kortere tid, reducere omkostningerne, forbedre kvaliteten og øge konsistensen i implementeringen af ​​siderne.
+
+Valtech Catalyst superoplader dit designsystem og giver dig mulighed for hurtigt at hæve din kundeoplevelse ved at forbinde front-end automatisering med kreative systemer for effektivt at anvende temaer på tværs af flere brand- og partnersteder. Dette reducerer tid, omkostninger og kompleksitet og giver mere tid til at fokusere på at levere den oplevelse, dine kunder har brug for.
+
+Vil du vide mere om Valtech Catalyst? Udfyld formularen nedenfor for at komme i kontakt med holdet i dag!</description>
+      <pubDate>Sat, 02 Mar 2024 17:25:29 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+    <item>
+      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
+      <description>[en] Sitecore har udgivet det nye Experience Manager SaaS-baserede CMS, XM Cloud. Med vores nye Valtech Catalyst kan multi-brand organisationer nu implementere deres brandsites på XM Cloud på kortere tid, mens omkostninger reduceres, kvaliteten forbedres, og ensartetheden af implementeringen øges.
+
+Valtech Catalyst fungerer som en superoplader til dit designsystem, hvilket giver dig mulighed for hurtigt at forbedre kundeoplevelsen ved at forbinde front-end automation med kreative systemer og anvende temaer effektivt og konsistent på tværs af flere brandsites. Dette reducerer tiden, omkostningerne og kompleksiteten ved implementeringen og giver dig mere tid til at fokusere på at levere den oplevelse, dine kunder har brug for.
+
+Med denne innovative teknologi fra Valtech &amp; Sitecore kan brands nu rulle deres sites ud på XM Cloud op til 40% hurtigere og mere konsistent end tidligere. Valtech Catalyst sikrer, at din implementeringsproces automatiseres og effektiviseres, hvilket hjælper organisationer med at blive mere effektive, reducere tid til markedet og visualisere implementeringsprocessen på Sitecore XM Cloud. 
+
+Vil du høre mere om Valtech Catalyst? Udfyld formularen nedenfor for at komme i kontakt med holdet i dag og høre om deres seneste innovation!</description>
+      <pubDate>Sat, 02 Mar 2024 17:36:43 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+  </channel>
+</rss>

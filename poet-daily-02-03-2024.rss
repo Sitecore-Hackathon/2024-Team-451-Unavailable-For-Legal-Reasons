@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:a10="http://www.w3.org/2005/Atom"
+  version="2.0">
+  <channel>
+    <title>Title</title>
+    <link>https://github.com/</link>
+    <description>Description</description>
+    <lastBuildDate>Sat, 02 Mar 2024 17:25:31 +0100</lastBuildDate>
+    <generator>Team 451 News Mixer</generator>
+    <a10:id>RSSUrl</a10:id>
+    <item>
+      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
+      <description>Sitecore launches XM Cloud, Valtech Catalyst saves time, cost, boosts quality for multi-brand sites. Automates deployment, enhance brand experience swiftly, efficiently. Sitecore partnership with Valtech ensures customer's success and innovation.</description>
+      <pubDate>Sat, 02 Mar 2024 17:25:29 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+    <item>
+      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
+      <description>[en] Sitecore releases XM Cloud,
+Deploy sites faster, cost is low.
+Valtech Catalyst shines bright,
+Automates for brand sites right.
+
+Multibrand firms find relief,
+Valtech Catalyst, a belief.
+Tech, content, design unite,
+Efficient, quick, take flight.
+
+Automated rollouts soar,
+Sitecore powered, times no more.
+Efficiency is key,
+Valtech Catalyst, come see.</description>
+      <pubDate>Sat, 02 Mar 2024 17:36:43 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+  </channel>
+</rss>
