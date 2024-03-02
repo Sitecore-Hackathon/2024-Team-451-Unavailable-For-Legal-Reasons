@@ -15,7 +15,7 @@ Best use of AI
 
 ## Description
 
-<!-- TODO -->
+![Architecture diagram](docs/diagram/diagram.png)
 
 ## Module Purpose
 

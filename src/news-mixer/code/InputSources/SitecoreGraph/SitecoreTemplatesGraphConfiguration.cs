@@ -2,7 +2,7 @@
 
 public class SitecoreTemplatesGraphConfiguration : SitecoreGraphInputConfiguration
 {
-      public Guid RootItemId { get; set; }
+    public Guid RootItemId { get; set; }
 
     public required Guid[] TemplateIds { get; set; }
 

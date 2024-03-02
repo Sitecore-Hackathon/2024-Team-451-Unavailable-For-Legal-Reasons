@@ -53,18 +53,20 @@ namespace NewsMixer
             }
         }
 
-        public async Task Execute(CancellationToken token) => await Parallel.ForEachAsync(_inputs, async (source, ics) =>
-                                                                       {
-                                                                           var enumerable = source.Execute(ics);
-
-                                                                           await foreach (var t in enumerable)
-                                                                           {
-                                                                               await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
-                                                                               {
-                                                                                   await stream.Execute(t, ics2);
-                                                                               });
-                                                                           }
-                                                                       });
+        public async Task Execute(CancellationToken token)
+        {
+            await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
+            {
+                var enumerable = source.Execute(ics);
+                await foreach(var t in enumerable)
+                {
+                    await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
+                    {
+                        await stream.Execute(t, ics2);
+                    });
+                }
+            });
+        }
     }
 
     public interface IPipelineConfig
