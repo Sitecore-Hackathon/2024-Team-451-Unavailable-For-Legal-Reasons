@@ -1,12 +1,18 @@
-﻿using NewsMixer.Models;
+﻿using Microsoft.Extensions.Logging;
+using NewsMixer.Models;
+using NewsMixer.Transforms.OpenAiSummary;
 
 namespace NewsMixer.Output.Console
 {
-    public class ConsoleOutput(string prefix = "") : IOutput
+    public class ConsoleOutput(string prefix, ILogger logger) : IOutput
     {
         public Task Execute(NewsItem itm, CancellationToken cancellationToken = default)
         {
-            System.Console.WriteLine($"{prefix}{itm.Date:yyyy-MM-dd}: {itm.Title}\n{itm.Content}");
+            if (logger.IsEnabled(LogLevel.Information))
+            {
+                logger.LogInformation("{prefix} {date} {title} {content}", prefix, itm.Date, itm.Title, itm.Content);
+            }
+            
             return Task.CompletedTask;
         }
     }

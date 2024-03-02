@@ -8,7 +8,7 @@ using NewsMixer.InputSources.SitecoreGraph;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
-
+using System.Data.SqlTypes;
 
 var services = new ServiceCollection();
 
@@ -16,7 +16,11 @@ services.AddHttpClient()
         .AddSingleton<AuthenticationTokenService>()
         .AddSingleton<IGraphQLWebsocketJsonSerializer>(new SystemTextJsonSerializer())
         .AddSingleton<GraphQlClientFactory>()
-        .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug).AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)));
+        .AddSingleton(LoggerFactory.Create(builder => builder.AddSimpleConsole(options =>
+        {
+            options.SingleLine = true;
+            options.TimestampFormat = "HH:mm:ss ";
+        }).SetMinimumLevel(LogLevel.Debug).AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)));
 
 var serviceProvider = services.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
@@ -63,14 +67,14 @@ pipeline.AddInput(source)
             {
                 ApiKey = apiKey,
                 Language = "en",
-            })
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>())
             ,
             new OpenAiSummaryTransform(new()
             {
                 ApiKey = apiKey,
                 AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
                 Language = "en",
-            })
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>())
         );
 
         cfg.AddOutput(
@@ -96,7 +100,7 @@ pipeline.AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet en]")
+            new ConsoleOutput("[Poet en]", logger)
         );
     })
     .AddStream(cfg =>
@@ -106,13 +110,13 @@ pipeline.AddInput(source)
             {
                 ApiKey = apiKey,
                 Language = "en",
-            }),
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>()),
             new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
             {
                 ApiKey = apiKey,
                 AiBehavior = "You are a gossipy news editor who likes to use click-baits and have a victorian writing style",
                 Language = "en"
-            })
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>())
         );
         cfg.AddOutput(
             new RssFileOutput(new RssFileConfiguration
@@ -137,7 +141,7 @@ pipeline.AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Gossipy en]")
+            new ConsoleOutput("[Gossipy en]", logger)
         );
     })
     .AddStream(cfg =>
@@ -147,13 +151,13 @@ pipeline.AddInput(source)
             {
                 ApiKey = apiKey,
                 Language = "da-DK",
-            }),
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>()),
             new OpenAiSummaryTransform(new()
             {
                 ApiKey = apiKey,
                 AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
                 Language = "da-DK",
-            })
+            }, serviceProvider.GetRequiredService<IHttpClientFactory>())
         );
         cfg.AddOutput(
             new RssFileOutput(new()
@@ -167,7 +171,7 @@ pipeline.AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet da]")
+            new ConsoleOutput("[Poet da]", logger)
         );
     });
 
