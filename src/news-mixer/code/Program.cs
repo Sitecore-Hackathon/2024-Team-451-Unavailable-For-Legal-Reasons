@@ -9,9 +9,9 @@ Console.WriteLine("Error 451 Unavailable for Legal Reasons");
 Console.WriteLine("");
 
 var source = new DummySourceInput();
-var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
-var outputFolder = System.Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? "c:\\temp";
-var baseUrl = System.Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
+var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
+var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
+var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
 // Setup pipeline
 var pipeline = new Pipeline().AddInput(source)
