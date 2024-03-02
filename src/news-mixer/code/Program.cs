@@ -4,12 +4,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NewsMixer;
 using NewsMixer.InputSources.DummySource;
+using NewsMixer.InputSources.RandomSource;
 using NewsMixer.InputSources.SitecoreGraph;
 using NewsMixer.InputSources.SitecoreSearch;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
-using System.Data.SqlTypes;
 
 var services = new ServiceCollection();
 
@@ -48,8 +48,8 @@ var config = new SitecoreTemplatesGraphConfiguration
     TitleField = "title",
     Language = "en",
     TemplateIds = [
-               new Guid("FF095022-530E-46AC-BC22-816A11C3A1BD"),
-                    new Guid("76036F5E-CBCE-46D1-AF0A-4143F9B557AA")
+                new Guid("FF095022-530E-46AC-BC22-816A11C3A1BD"),
+                new Guid("76036F5E-CBCE-46D1-AF0A-4143F9B557AA")
                ],
     RootItemId = new Guid("110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9"),
 };
@@ -60,12 +60,16 @@ var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environme
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
 pipeline.AddInput(
-    // new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>()),
-    new SitecoreSearchSource(new()
-    {
-        QueryPhrase = "GraphQL",
-        Limit = 2,
-    }, serviceProvider),
+    new RandomizeInputSource(2,
+        new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>())
+    ),
+    new RandomizeInputSource(2,
+        new SitecoreSearchSource(new()
+        {
+            QueryPhrase = "GraphQL",
+            Limit = 15,
+        }, serviceProvider)
+    ),
     new DummySourceInput()
     )
     .AddStream(cfg =>

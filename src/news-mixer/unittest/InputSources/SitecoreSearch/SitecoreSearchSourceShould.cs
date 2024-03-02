@@ -1,4 +1,5 @@
-﻿using NewsMixer.InputSources.SitecoreSearch;
+﻿using NewsMixer.Extensions;
+using NewsMixer.InputSources.SitecoreSearch;
 using NewsMixer.Models;
 using NewsMixer.UnitTests.Extensions;
 using Xunit.Abstractions;
