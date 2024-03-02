@@ -4,10 +4,11 @@ namespace NewsMixer.Transforms.DummySummary
 {
     public class DummySummaryTransform : ITransform
     {
-        public Task<NewsItem> Execute(NewsItem itm, CancellationToken cancellationToken)
+        public Task<NewsItem> Execute(NewsItem item, CancellationToken cancellationToken)
         {
-            itm.Content = itm.Content?[..200];
-            return Task.FromResult(itm);
+            item.Content = item.Content[..200];
+
+            return Task.FromResult(item);
         }
     }
 }

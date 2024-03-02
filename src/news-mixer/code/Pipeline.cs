@@ -7,10 +7,10 @@ namespace NewsMixer
 {
     internal class Pipeline
     {
-        private List<ISourceInput> _inputs = new();
-        private List<PipelineStream> _streams = new();
+        private readonly List<ISourceInput> _inputs = [];
+        private readonly List<PipelineStream> _streams = [];
 
-        public Pipeline AddInput(params ISourceInput[]  inputs)
+        public Pipeline AddInput(params ISourceInput[] inputs)
         {
             _inputs.AddRange(inputs);
             return this;
@@ -26,8 +26,8 @@ namespace NewsMixer
 
         public class PipelineStream
         {
-            private List<ITransform> _transforms = new();
-            private List<IOutput> _outputs = new();
+            private readonly List<ITransform> _transforms = [];
+            private readonly List<IOutput> _outputs = [];
 
             public PipelineStream AddTransform(params ITransform[] transforms)
             {
@@ -44,7 +44,7 @@ namespace NewsMixer
             public async Task Execute(NewsItem input, CancellationToken token)
             {
                 var itm = input;
-                foreach(var t in _transforms)
+                foreach (var t in _transforms)
                 {
                     itm = await t.Execute(itm, token);
                 }
@@ -53,20 +53,18 @@ namespace NewsMixer
             }
         }
 
-        public async Task Execute(CancellationToken token)
-        {
-            await Parallel.ForEachAsync(_inputs, async (source, ics) =>
-            {
-                var enumerable = source.Execute(ics);
-                await foreach(var t in enumerable)
-                {
-                    await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
-                    {
-                        await stream.Execute(t, ics2);
-                    });
-                }
-            });
-        }
+        public async Task Execute(CancellationToken token) => await Parallel.ForEachAsync(_inputs, async (source, ics) =>
+                                                                       {
+                                                                           var enumerable = source.Execute(ics);
+
+                                                                           await foreach (var t in enumerable)
+                                                                           {
+                                                                               await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
+                                                                               {
+                                                                                   await stream.Execute(t, ics2);
+                                                                               });
+                                                                           }
+                                                                       });
     }
 
     public interface IPipelineConfig

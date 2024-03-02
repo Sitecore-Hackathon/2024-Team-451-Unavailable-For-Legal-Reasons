@@ -5,7 +5,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
 {
     public class OpenAiSummaryConfiguration
     {
-        public string ApiKey { get; set; }
+        public string ApiKey { get; set; } = null!;
         public string? Language { get; set; }
         public string DeploymentName { get; set; } = "gpt-3.5-turbo";
         public string UserPrompt = "Create a summary of the following text so that I can easily get an idea if the article is worth reading and what I would learn from the article.";
@@ -15,7 +15,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
     public class OpenAiSummaryTransform : ITransform
     {
         private readonly OpenAiSummaryConfiguration _config;
-        private OpenAIClient _client;
+        private readonly OpenAIClient _client;
 
         public OpenAiSummaryTransform(OpenAiSummaryConfiguration config)
         {
@@ -37,6 +37,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
             }, cancellationToken);
 
             itm.Content = string.Join("\n", result.Value.Choices.Select(x => x.Message?.Content));
+
             return itm;
         }
     }

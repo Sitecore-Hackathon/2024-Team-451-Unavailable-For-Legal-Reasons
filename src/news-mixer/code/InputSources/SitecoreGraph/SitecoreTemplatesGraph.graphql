@@ -1,27 +1,41 @@
-﻿fragment resultFields on Item {
-    title: {titleField} { value }
-    content: {contentField} { value }
-    url {
-        path
-    }
-}
-
-query {
+﻿query GetContent(
+  $cursor: String
+  $rootId: String!
+  $titleField: String!
+  $contentField: String!
+  $language: String = "en"
+  $includeTemplate1: String!
+  $includeTemplate2: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate3: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate4: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate5: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate6: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate7: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate8: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate9: String = "{00000000-0000-0000-0000-000000000000}"
+  $includeTemplate10: String = "{00000000-0000-0000-0000-000000000000}"
+) {
   search(
     where: {
-      AND:[
-        {
-          name: "_path",
-          value: "{rootItemId}",
-          operator: CONTAINS
-        },
-        { name: "_language",  value: "{language}" },
-        { name: "_hasLayout", value: "true" },
-        { name: "_templates", value: "{templateId}", operator: CONTAINS }
+      OR: [
+        { name: "_templates", value: $includeTemplate1, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate2, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate3, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate4, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate5, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate6, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate7, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate8, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate9, operator: CONTAINS }
+        { name: "_templates", value: $includeTemplate10, operator: CONTAINS }
+      ]
+      AND: [
+        { name: "_path", value: $rootId, operator: CONTAINS }
+        { name: "_language", value: $language }
       ]
     }
-    first: 100
-    after: {nextToken}
+    first: 5
+    after: $cursor
   ) {
     total
     pageInfo {
@@ -29,7 +43,15 @@ query {
       hasNext
     }
     results {
-      ...resultFields
+      url {
+        value: path
+      }
+      title: field(name: $titleField) {
+        value
+      }
+      content: field(name: $contentField) {
+        value
+      }
     }
   }
 }

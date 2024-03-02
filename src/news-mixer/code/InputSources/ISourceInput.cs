@@ -4,6 +4,6 @@ namespace NewsMixer.InputSources
 {
     internal interface ISourceInput
     {
-        public IAsyncEnumerable<NewsItem> Execute(CancellationToken token);
+        public IAsyncEnumerable<NewsItem> Execute(CancellationToken cancellationToken);
     }
 }

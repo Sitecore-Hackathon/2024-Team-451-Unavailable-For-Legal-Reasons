@@ -12,5 +12,5 @@ Headless endpoint UI:
 Authoring endpoint UI:
 
 - <https://cm.team451.localhost/sitecore/api/authoring/graphql/playground/> (ensure server url is `https://cm.team451.localhost/sitecore/api/authoring/graphql/v1/`)
-- Get bearer token with: `curl.exe -k --data "client_id=newsmixer&grant_type=password&username=sitecore\admin&password=b" -H "Content-Type: application/x-www-form-urlencoded" "https://id.team451.localhost/connect/token"`
+- Get bearer token with: `curl.exe -k --data "client_id=newsmixer&grant_type=password&username=sitecore\admin&password=b" "https://id.team451.localhost/connect/token"`
 - Use `{ "Authorization": "Bearer XXX" }`

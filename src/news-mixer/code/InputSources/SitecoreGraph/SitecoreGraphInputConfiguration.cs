@@ -1,11 +1,11 @@
 ﻿namespace NewsMixer.InputSources.SitecoreGraph
 {
-    public class SitecoreGraphInputConfiguration
+    public abstract class SitecoreGraphInputConfiguration
     {
-        public Uri? EndpointUri { get; set; }
+        public EndPointConfiguration EndPoint { get; set; } = null!;
 
-        public string? Query { get; set; }
+        public abstract string GetQuery();
 
-        public string? Variables { get; set; }
+        public abstract dynamic GetVariables(string? cursor);
     }
 }

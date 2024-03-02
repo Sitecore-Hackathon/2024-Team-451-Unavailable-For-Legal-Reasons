@@ -2,9 +2,9 @@
 {
     public class RssFileConfiguration
     {
-        public string OutputFolder { get; set; }
+        public string OutputFolder { get; set; } = null!;
 
-        public string FileFormatPattern { get; set; }
+        public string FileFormatPattern { get; set; } = null!;
 
         public DigestFormat Digest { get; set; } 
     }

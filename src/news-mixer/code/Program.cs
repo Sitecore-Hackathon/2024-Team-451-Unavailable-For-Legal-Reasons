@@ -9,9 +9,8 @@ Console.WriteLine("Error 451 Unavailable for Legal Reasons");
 Console.WriteLine("");
 
 var source = new DummySourceInput();
-var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY");
+var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = "c:\\temp";
-
 var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
     {
