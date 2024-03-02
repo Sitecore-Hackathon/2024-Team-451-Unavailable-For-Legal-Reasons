@@ -25,8 +25,8 @@ namespace NewsMixer.Output.RssFile
         {
             var dateStr = Digest switch
             {
-                DigestFormat.Daily => date.ToString("d"),
-                DigestFormat.Weekly => $"week-{CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date.DateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday)}",
+                DigestFormat.Daily => date.ToString("yyyy-MM-dd"),
+                DigestFormat.Weekly => $"week-{CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(date.DateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday):D2}",
                 _ => "date",
             };
             return Path.Join(OutputFolder, FileFormatPattern.Replace("{date}", dateStr));

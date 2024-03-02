@@ -9,10 +9,11 @@ Console.WriteLine("Error 451 Unavailable for Legal Reasons");
 Console.WriteLine("");
 
 var source = new DummySourceInput();
-var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
-var outputFolder = "c:\\temp";
-var baseUrl = "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
+var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
+var outputFolder = System.Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? "c:\\temp";
+var baseUrl = System.Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
+// Setup pipeline
 var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
     {
@@ -52,7 +53,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet] ")
+            new ConsoleOutput("[Poet en] ")
         );
     })
     .AddStream(cfg =>
@@ -93,7 +94,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Gossipy] ")
+            new ConsoleOutput("[Gossipy en] ")
         );
     })
     .AddStream(cfg =>
@@ -123,8 +124,18 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet] ")
+            new ConsoleOutput("[Poet da] ")
             );
     });
 
-await pipeline.Execute(new CancellationToken());
+// Handle Ctrl+C grcefully
+var cts = new CancellationTokenSource();
+Console.CancelKeyPress += (s, e) =>
+{
+    Console.WriteLine("Canceling...");
+    cts.Cancel();
+    e.Cancel = true;
+};
+
+// Start running
+await pipeline.Execute(cts.Token);
