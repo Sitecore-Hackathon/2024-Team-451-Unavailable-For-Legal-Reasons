@@ -51,3 +51,5 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+out/*
+!out/.gitkeep

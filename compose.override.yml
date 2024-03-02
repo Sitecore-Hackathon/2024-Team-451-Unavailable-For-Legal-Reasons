@@ -182,5 +182,8 @@ services:
     depends_on:
       cm:
         condition: service_healthy
+    volumes:
+      - ./out:c:\out
     environment:
       OPENAI_APIKEY: ${OPENAI_APIKEY}
+      OUTPUT_DIR: c:\out

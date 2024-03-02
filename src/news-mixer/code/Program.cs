@@ -53,7 +53,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet] ")
+            new ConsoleOutput("[Poet en] ")
         );
     })
     .AddStream(cfg =>
@@ -94,7 +94,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Gossipy] ")
+            new ConsoleOutput("[Gossipy en] ")
         );
     })
     .AddStream(cfg =>
@@ -124,7 +124,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet] ")
+            new ConsoleOutput("[Poet da] ")
             );
     });
 
