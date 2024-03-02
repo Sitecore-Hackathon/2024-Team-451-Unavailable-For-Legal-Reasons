@@ -1,20 +1,62 @@
-﻿using NewsMixer;
+﻿using GraphQL.Client.Abstractions.Websocket;
+using GraphQL.Client.Serializer.SystemTextJson;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NewsMixer;
 using NewsMixer.InputSources.DummySource;
+using NewsMixer.InputSources.SitecoreGraph;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
 
-var builder = Host.CreateApplicationBuilder(args);
+var pipeline = new Pipeline();
+var services = new ServiceCollection();
 
-builder.Services.AddHostedService<Worker>();
+services.AddHttpClient()
+                .AddSingleton<AuthenticationTokenService>()
+                .AddSingleton<IGraphQLWebsocketJsonSerializer>(new SystemTextJsonSerializer())
+                .AddSingleton<GraphQlClientFactory>()
+                .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)))
+                .AddSingleton(x => pipeline);
+         
+var serviceProvider = services.BuildServiceProvider();
+var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+
+Console.WriteLine("### This is the NewsMixer! ###");
+Console.WriteLine("### By Team Error 451 Unavailable for Legal Reasons ###");
+Console.WriteLine("");
+
+logger.LogInformation("starting...");
+
+// setup pipeline
+var config = new SitecoreTemplatesGraphConfiguration
+{
+    EndPoint = new UsernameAndPasswordEndPointConfiguration
+    {
+        ApiUri = new Uri("https://cm.team451.localhost/sitecore/api/graph/edge/"),
+        ApiKey = "{F0107448-59B2-40D0-9158-B6F33F17E9C4}",
+        AuthenticationTokenUri = new Uri("https://id.team451.localhost/connect/token"),
+        ClientId = "newsmixer",
+        Username = "sitecore\\admin",
+        Password = "b"
+    },
+    ContentField = "body",
+    TitleField = "title",
+    Language = "en",
+    TemplateIds = [
+               new Guid("FF095022-530E-46AC-BC22-816A11C3A1BD"),
+                    new Guid("76036F5E-CBCE-46D1-AF0A-4143F9B557AA")
+               ],
+    RootItemId = new Guid("110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9"),
+};
 
 var source = new DummySourceInput();
+//var source = new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>());
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
-// setup pipeline
-var pipeline = new Pipeline().AddInput(source)
+pipeline.AddInput(source)
     .AddStream(cfg =>
     {
         cfg.AddTransform(
@@ -22,7 +64,8 @@ var pipeline = new Pipeline().AddInput(source)
             {
                 ApiKey = apiKey,
                 Language = "en",
-            }),
+            })
+            ,
             new OpenAiSummaryTransform(new()
             {
                 ApiKey = apiKey,
@@ -129,8 +172,17 @@ var pipeline = new Pipeline().AddInput(source)
         );
     });
 
-builder.Services.AddSingleton(pipeline);
+// handle ctrl+c grcefully
+var cts = new CancellationTokenSource();
 
-var host = builder.Build();
+Console.CancelKeyPress += (s, e) =>
+{
+    Console.WriteLine("Canceling...");
 
-await host.RunAsync();
+    cts.Cancel();
+    
+    e.Cancel = true;
+};
+
+// start
+await pipeline.Execute(cts.Token);

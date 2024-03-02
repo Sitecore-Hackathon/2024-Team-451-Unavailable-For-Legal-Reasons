@@ -83,9 +83,9 @@ namespace NewsMixer.UnitTests.InputSources.SitecoreGraph
             var source = new SitecoreGraphInputSource(config, sp.GetRequiredService<GraphQlClientFactory>());
             var count = 0;
 
-            await foreach (var item in source.GetContentAsync(CancellationToken.None))
+            await foreach (var item in source.Execute(CancellationToken.None))
             {
-                _output.WriteLine(item.ToString());
+                _output.WriteLine(item.Title);
 
                 Assert.NotNull(item.Title);
                 Assert.NotNull(item.Content);
