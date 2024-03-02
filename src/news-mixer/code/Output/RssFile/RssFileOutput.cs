@@ -7,6 +7,7 @@ namespace NewsMixer.Output.RssFile
     public class RssFileOutput : IOutput
     {
         private readonly RssFileConfiguration _config;
+        private readonly object _lock = new object();
 
         public RssFileOutput(RssFileConfiguration config)
         {
@@ -17,20 +18,24 @@ namespace NewsMixer.Output.RssFile
         public Task Execute(NewsItem itm, CancellationToken cancellationToken = default)
         {
             var filePath = _config.GetFilePath(itm.Date ?? DateTimeOffset.Now);
-            var feed = GetExistingFeed(filePath) ?? CreateFeed();
 
-            var syndicationItem = new SyndicationItem
+            lock (_lock)
             {
-                PublishDate = itm.Date ?? DateTimeOffset.Now,
-                Title = new TextSyndicationContent(itm.Title, TextSyndicationContentKind.Plaintext),
-                Summary = new TextSyndicationContent($"[{itm.OriginalLanguage}] " + itm.Content, TextSyndicationContentKind.Plaintext),
-            };
-            syndicationItem.Links.Add(new SyndicationLink(itm.Url));
+                var feed = GetExistingFeed(filePath) ?? CreateFeed();
 
-            feed.Items = (feed.Items ?? [])
-                .Union([syndicationItem]);
+                var syndicationItem = new SyndicationItem
+                {
+                    PublishDate = itm.Date ?? DateTimeOffset.Now,
+                    Title = new TextSyndicationContent(itm.Title, TextSyndicationContentKind.Plaintext),
+                    Summary = new TextSyndicationContent($"[{itm.OriginalLanguage}] " + itm.Content, TextSyndicationContentKind.Plaintext),
+                };
+                syndicationItem.Links.Add(new SyndicationLink(itm.Url));
 
-            return WriteFeed(feed, filePath);
+                feed.Items = (feed.Items ?? [])
+                    .Union([syndicationItem]);
+
+                return WriteFeed(feed, filePath);
+            }
         }
 
         private static SyndicationFeed? GetExistingFeed(string filePath)

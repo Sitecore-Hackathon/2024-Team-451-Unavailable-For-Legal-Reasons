@@ -1,4 +1,6 @@
 ﻿using AngleSharp;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NewsMixer.Models;
 using System.Net.Http.Json;
 using System.Runtime.CompilerServices;
@@ -10,18 +12,17 @@ namespace NewsMixer.InputSources.SitecoreSearch
     {
         private readonly SitecoreSearchConfiguration _config;
         private readonly HttpClient _client;
+        private readonly ILogger? _logger;
 
-        public SitecoreSearchSource(SitecoreSearchConfiguration config)
+        public SitecoreSearchSource(SitecoreSearchConfiguration config, IServiceProvider sp) : this(config, sp.GetRequiredService<ILogger<SitecoreSearchSource>>(), sp.GetRequiredService<IHttpClientFactory>().CreateClient())
+        {
+        }
+        public SitecoreSearchSource(SitecoreSearchConfiguration config, ILogger logger, HttpClient client)
         {
             _config = config;
-            _client = new HttpClient(new HttpClientHandler
-            {
-                Proxy = new System.Net.WebProxy
-                {
-                    Address = new Uri("http://127.0.0.1:8888")
-                }
-            });
+            _client = client;
             _client.DefaultRequestHeaders.Add("Authorization", config.SearchApiKey);
+            _logger = logger;
         }
 
         public IAsyncEnumerable<NewsItem> Execute(CancellationToken cancellationToken)
@@ -68,8 +69,11 @@ namespace NewsMixer.InputSources.SitecoreSearch
                 return item;
             }
 
+            var url = item.Url.ToString();
             var context = BrowsingContext.New(Configuration.Default.WithDefaultLoader());
-            var document = await context.OpenAsync(item.Url.ToString(), cancellationToken);
+            _logger?.LogDebug("Fetch page {PageUrl}", url);
+            var document = await context.OpenAsync(url, cancellationToken);
+            _logger?.LogDebug("Find content on {PageUrl}", url);
             var article = document.QuerySelector("article");
             var content = article?.TextContent?.Trim();
             if (!string.IsNullOrEmpty(content) && ((content?.Length ?? 0) > (item.Content?.Length ?? 0)))

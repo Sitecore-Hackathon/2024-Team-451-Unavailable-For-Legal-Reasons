@@ -1,4 +1,5 @@
 ﻿using Azure.AI.OpenAI;
+using Azure.Core.Pipeline;
 using Microsoft.Extensions.Logging;
 using NewsMixer.Models;
 
@@ -13,9 +14,12 @@ namespace NewsMixer.Transforms.OpenAiSummary
         public string AiBehavior = "You are a 5 year old kindergaden child";
     }
 
-    public class OpenAiSummaryTransform(OpenAiSummaryConfiguration config) : ITransform
+    public class OpenAiSummaryTransform(OpenAiSummaryConfiguration config, IHttpClientFactory httpClientFactory) : ITransform
     {
-        private readonly OpenAIClient _client = new(config.ApiKey);
+        private readonly OpenAIClient _client = new(config.ApiKey, new OpenAIClientOptions
+        {
+            Transport = new HttpClientTransport(httpClientFactory.CreateClient())
+        });
 
         public async Task<NewsItem> Execute(NewsItem itm, ILogger logger, CancellationToken cancellationToken)
         {
@@ -26,7 +30,6 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 logger.LogDebug("executing transformer {transformer} for language={language}...", nameof(OpenAiSummaryTransform), resultLanguage);
             }
 
-
             var result = await _client.GetChatCompletionsAsync(new ChatCompletionsOptions
             {
                 DeploymentName = config.DeploymentName,
@@ -35,7 +38,6 @@ namespace NewsMixer.Transforms.OpenAiSummary
                     new ChatRequestSystemMessage(config.AiBehavior),
                     new ChatRequestUserMessage(config.UserPrompt + "Create the summary in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Content),
                 }
-
             }, cancellationToken);
 
             itm.Content = string.Join("\n", result.Value.Choices.Select(x => x.Message?.Content));
