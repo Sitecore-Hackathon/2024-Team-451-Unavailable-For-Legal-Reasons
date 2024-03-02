@@ -5,11 +5,9 @@ using Microsoft.Extensions.Logging;
 using NewsMixer;
 using NewsMixer.InputSources.DummySource;
 using NewsMixer.InputSources.SitecoreGraph;
-using NewsMixer.InputSources.SitecoreSearch;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
-using System.Data.SqlTypes;
 
 var services = new ServiceCollection();
 
@@ -24,13 +22,10 @@ services.AddHttpClient()
         }).SetMinimumLevel(LogLevel.Debug).AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)));
 
 var serviceProvider = services.BuildServiceProvider();
-var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
 Console.WriteLine("### This is the NewsMixer! ###");
 Console.WriteLine("### By Team Error 451 Unavailable for Legal Reasons ###");
 Console.WriteLine("");
-
-logger.LogInformation("starting...");
 
 // setup pipeline
 var config = new SitecoreTemplatesGraphConfiguration
@@ -54,13 +49,13 @@ var config = new SitecoreTemplatesGraphConfiguration
     RootItemId = new Guid("110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9"),
 };
 
-var pipeline = new Pipeline(logger);
+var pipeline = new Pipeline(serviceProvider.GetRequiredService<ILoggerFactory>());
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
 pipeline.AddInput(
-    // new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>()),
+    //new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>())
     // new SitecoreSearchSource(new()
     // {
     //     QueryPhrase = "GraphQL",
@@ -108,7 +103,7 @@ pipeline.AddInput(
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet en]", logger)
+            new ConsoleOutput("[Poet en]", serviceProvider.GetRequiredService<ILoggerFactory>())
         );
     })
     .AddStream(cfg =>
@@ -149,7 +144,7 @@ pipeline.AddInput(
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Gossipy en]", logger)
+            new ConsoleOutput("[Gossipy en]", serviceProvider.GetRequiredService<ILoggerFactory>())
         );
     })
     .AddStream(cfg =>
@@ -179,7 +174,7 @@ pipeline.AddInput(
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet da]", logger)
+            new ConsoleOutput("[Poet da]", serviceProvider.GetRequiredService<ILoggerFactory>())
         );
     });
 

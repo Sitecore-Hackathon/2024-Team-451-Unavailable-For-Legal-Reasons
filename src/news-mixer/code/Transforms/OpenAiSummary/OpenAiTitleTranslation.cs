@@ -47,6 +47,11 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 }
             }, cancellationToken);
 
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("transformer openapi usage totalTokens={totalTokens}...", result.Value.Usage.TotalTokens);
+            }
+
             itm.Title = string.Join("\n", result.Value.Choices.Select(x => x.Message?.Content));
             itm.ContentLanguage = resultLanguage;
 

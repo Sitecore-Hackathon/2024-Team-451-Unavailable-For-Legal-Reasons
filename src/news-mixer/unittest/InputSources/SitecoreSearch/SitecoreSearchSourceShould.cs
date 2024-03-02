@@ -7,7 +7,7 @@ namespace NewsMixer.UnitTests.InputSources.SitecoreSearch
     public class SitecoreSearchSourceShould
     {
         [Fact]
-        public async Task InvokeSearchService()
+        public void InvokeSearchService()
         {
             var sut = new SitecoreSearchSource(new()
             {
