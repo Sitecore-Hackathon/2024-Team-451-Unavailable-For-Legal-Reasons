@@ -61,11 +61,11 @@ var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sit
 
 pipeline.AddInput(
     // new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>()),
-    // new SitecoreSearchSource(new()
-    // {
-    //     QueryPhrase = "GraphQL",
-    //     Limit = 2,
-    // }),
+    new SitecoreSearchSource(new()
+    {
+        QueryPhrase = "GraphQL",
+        Limit = 2,
+    }, serviceProvider),
     new DummySourceInput()
     )
     .AddStream(cfg =>
