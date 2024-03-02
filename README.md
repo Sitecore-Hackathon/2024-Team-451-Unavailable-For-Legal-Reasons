@@ -113,7 +113,7 @@ When running the program five RSS files are created with the configured AI behav
 
 The implemented scenario relies on content from **Sitecore XM** and the [Sitecore Documentation](https://doc.sitecore.com) through its **Sitecore Search** instance. New content can be added by logging into the Sitecore CM instance and creating it. Alternatively a strategy like the one used to seed the sample data for the solution can be used ``src/tools/Invoke-SampleDataSeed.ps1``.
 
-The newsletters are configured in **Sitecore Send** - screenshots of the configuration and the mail sent for two of the feeds are placed in ``docs/pdfs/NewsletterConfigurationAndMail.pdf`` the same configuration should be imitated on an accessible **Sitecore Send** account if to try out the entire flow.
+The newsletters are configured in **Sitecore Send** - screenshots of the configuration and the mail sent for two of the feeds are placed in [NewsletterConfigurationAndMail](docs/pdfs/NewsletterConfigurationAndMail.pdf) the same configuration should be imitated on an accessible **Sitecore Send** account if to try out the entire flow.
 
 The RSS feeds are published as Github Pages on the following URL's: 
 
@@ -130,5 +130,5 @@ Please note that the published feeds are not updated as part of the solution, th
 ### Ideas for future development (apart from input/output sources and transformers)
 
 - Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
-- **News Mixer** Admin Interface (Sitecore or alternative): Enable *"<ROLE>"* to generally configure Transformers and Sources and pair them with each other
+- **News Mixer** Admin Interface (Sitecore or alternative): Enable *Role* to generally configure Transformers and Sources and pair them with each other
  
