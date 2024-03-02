@@ -5,20 +5,20 @@ using Microsoft.Extensions.Logging;
 using NewsMixer;
 using NewsMixer.InputSources.DummySource;
 using NewsMixer.InputSources.SitecoreGraph;
+using NewsMixer.InputSources.SitecoreSearch;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
 
-var pipeline = new Pipeline();
+
 var services = new ServiceCollection();
 
 services.AddHttpClient()
-                .AddSingleton<AuthenticationTokenService>()
-                .AddSingleton<IGraphQLWebsocketJsonSerializer>(new SystemTextJsonSerializer())
-                .AddSingleton<GraphQlClientFactory>()
-                .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)))
-                .AddSingleton(x => pipeline);
-         
+        .AddSingleton<AuthenticationTokenService>()
+        .AddSingleton<IGraphQLWebsocketJsonSerializer>(new SystemTextJsonSerializer())
+        .AddSingleton<GraphQlClientFactory>()
+        .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug).AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)));
+
 var serviceProvider = services.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
@@ -50,13 +50,20 @@ var config = new SitecoreTemplatesGraphConfiguration
     RootItemId = new Guid("110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9"),
 };
 
-var source = new DummySourceInput();
-//var source = new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>());
+var pipeline = new Pipeline(logger);
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
-pipeline.AddInput(source)
+pipeline.AddInput(
+    // new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>()),
+    // new SitecoreSearchSource(new()
+    // {
+    //     QueryPhrase = "GraphQL",
+    //     Limit = 2,
+    // }),
+    new DummySourceInput()
+    )
     .AddStream(cfg =>
     {
         cfg.AddTransform(
@@ -180,9 +187,11 @@ Console.CancelKeyPress += (s, e) =>
     Console.WriteLine("Canceling...");
 
     cts.Cancel();
-    
+
     e.Cancel = true;
 };
 
 // start
 await pipeline.Execute(cts.Token);
+
+Console.WriteLine("Completed.");

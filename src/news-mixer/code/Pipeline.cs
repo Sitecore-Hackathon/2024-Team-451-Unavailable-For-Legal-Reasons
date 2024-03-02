@@ -1,4 +1,5 @@
-﻿using NewsMixer.InputSources;
+﻿using Microsoft.Extensions.Logging;
+using NewsMixer.InputSources;
 using NewsMixer.Models;
 using NewsMixer.Output;
 using NewsMixer.Transforms;
@@ -7,8 +8,14 @@ namespace NewsMixer
 {
     public class Pipeline
     {
+        public Pipeline(ILogger logger)
+        {
+            _logger = logger;
+        }
+
         private readonly List<ISourceInput> _inputs = [];
         private readonly List<PipelineStream> _streams = [];
+        private readonly ILogger _logger;
 
         public Pipeline AddInput(params ISourceInput[] inputs)
         {
@@ -19,7 +26,7 @@ namespace NewsMixer
 
         public Pipeline AddStream(Action<PipelineStream> cfg)
         {
-            var stream = new PipelineStream();
+            var stream = new PipelineStream(_logger);
 
             cfg(stream);
 
@@ -30,27 +37,41 @@ namespace NewsMixer
 
         public class PipelineStream
         {
+            public PipelineStream(ILogger logger)
+            {
+                _logger = logger;
+            }
+
             private readonly List<ITransform> _transforms = [];
             private readonly List<IOutput> _outputs = [];
+            private readonly ILogger _logger;
 
             public PipelineStream AddTransform(params ITransform[] transforms)
             {
                 _transforms.AddRange(transforms);
+
                 return this;
             }
 
             public PipelineStream AddOutput(params IOutput[] outputs)
             {
                 _outputs.AddRange(outputs);
+
                 return this;
             }
 
             public async Task Execute(NewsItem input, CancellationToken token)
             {
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug("executing stream...");
+                }
+
                 var itm = input;
+                
                 foreach (var t in _transforms)
                 {
-                    itm = await t.Execute(itm, token);
+                    itm = await t.Execute(itm, _logger, token);
                 }
 
                 await Parallel.ForEachAsync(_outputs, async (o, ics) => await o.Execute(itm, ics));
@@ -59,6 +80,11 @@ namespace NewsMixer
 
         public async Task Execute(CancellationToken token) => await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
                                                                        {
+                                                                           if (_logger.IsEnabled(LogLevel.Debug))
+                                                                           {
+                                                                               _logger.LogDebug("executing source...");
+                                                                           }
+
                                                                            var enumerable = source.Execute(ics);
 
                                                                            await foreach (var t in enumerable)

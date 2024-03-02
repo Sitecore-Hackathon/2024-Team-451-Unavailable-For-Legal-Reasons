@@ -1,4 +1,5 @@
-﻿using NewsMixer.Models;
+﻿using Microsoft.Extensions.Logging;
+using NewsMixer.Models;
 
 namespace NewsMixer.InputSources
 {
