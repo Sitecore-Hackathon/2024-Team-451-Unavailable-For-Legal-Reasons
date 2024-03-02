@@ -14,7 +14,7 @@ namespace NewsMixer.Output.RssFile
         public string FeedDescription { get; set; } = "";
         public Uri SiteUrl { get; set; } = new("https://valtech.com");
         public Uri FeedUrl { get; set; } = new("https://valtech.com");
-
+        public string FeedId { get; set; } = "RssId";
 
         public void EnsureOutputFolder()
         {

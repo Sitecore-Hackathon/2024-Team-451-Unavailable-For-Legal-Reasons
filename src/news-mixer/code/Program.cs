@@ -11,6 +11,7 @@ Console.WriteLine("");
 var source = new DummySourceInput();
 var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? string.Empty;
 var outputFolder = "c:\\temp";
+var baseUrl = "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
 var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
@@ -30,7 +31,10 @@ var pipeline = new Pipeline().AddInput(source)
                 FileFormatPattern = "poet-daily-{date}.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your poet's daily update",
-                FeedDescription = "Summaries from a romantic poet"
+                FeedDescription = "Summaries from a romantic poet",
+                FeedId = "poet-daily",
+                FeedUrl = new Uri($"{baseUrl}/poet-daily.rss"),
+                SiteUrl = new Uri($"{baseUrl}")
             }),
             new RssFileOutput(new RssFileConfiguration
             {
@@ -38,7 +42,10 @@ var pipeline = new Pipeline().AddInput(source)
                 FileFormatPattern = "poet-weekly-{date}.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your poet's weekly update",
-                FeedDescription = "Summaries from a romantic poet"
+                FeedDescription = "Summaries from a romantic poet",
+                FeedId = "poet-weekly",
+                FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
+                SiteUrl = new Uri($"{baseUrl}")
             }),
             new ConsoleOutput("[Poet] ")
         );
@@ -60,7 +67,10 @@ var pipeline = new Pipeline().AddInput(source)
                 FileFormatPattern = "gossipy-daily-{date}-da-DK.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your editor's daily update",
-                FeedDescription = "Summaries from an editor"
+                FeedDescription = "Summaries from an editor",
+                FeedId = "editor-daily",
+                FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
+                SiteUrl = new Uri($"{baseUrl}")
             }),
             new RssFileOutput(new RssFileConfiguration
             {
@@ -68,7 +78,10 @@ var pipeline = new Pipeline().AddInput(source)
                 FileFormatPattern = "gossipy-weekly-{date}-da-DK.rss",
                 OutputFolder = outputFolder,
                 FeedTitle = "Your editor's weekely update",
-                FeedDescription = "Summaries from an editor"
+                FeedDescription = "Summaries from an editor",
+                FeedId = "editor-daily",
+                FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
+                SiteUrl = new Uri($"{baseUrl}")
             }),
             new ConsoleOutput("[Gossipy] ")
         );

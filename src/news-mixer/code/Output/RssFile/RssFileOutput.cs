@@ -50,7 +50,9 @@ namespace NewsMixer.Output.RssFile
         {
             return new SyndicationFeed(_config.FeedTitle, _config.FeedDescription, _config.FeedUrl)
             {
-                Generator = "Team 451 News Mixer"
+                Generator = "Team 451 News Mixer",
+                BaseUri = _config.FeedUrl,
+                Id = _config.FeedId,
             };
         }
 
