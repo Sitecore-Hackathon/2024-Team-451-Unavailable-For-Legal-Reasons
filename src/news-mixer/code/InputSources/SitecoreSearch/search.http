@@ -1,0 +1,49 @@
+POST https://discover.sitecorecloud.io/discover/v2/43533744
+Content-Type: application/json
+Authorization: 01-5370450c-b5ef9b415170c314ee8bc9c99d4f51410f601cb8
+
+{
+    "context": {
+        "locale": {
+            "language": "en",
+            "country": "us"
+        },
+        "page": {
+            "uri": "/search-results"
+        }
+    },
+    "widget": {
+        "items": [
+            {
+                "rfk_id": "rfkid_7",
+                "entity": "content",
+                "search": {
+                    "content": {},
+                    "facet": { "all": true },
+                    "query": {},
+                    "limit": 5
+                },
+                "sources": [
+                    "816669"
+                ]
+            }
+        ]
+    }
+}
+
+## Sources:
+# 842136 Sitecore Knowledge Base
+# 819471 Sitecore Documentation
+# 878261 Sitecore Documentation and archive
+# 870090 Sitecore Documentation XP XC XM
+# 823118 Cloud Portal admin documentation
+# 817397 Sitecore Documentation XM Cloud
+# 817395 Engagement Cloud, Sitecore Send
+# 817403 Content Cloud, Sitecore Search
+# 823119 Engagement Cloud, Sitecore Personalize
+# 817394 Commerce Cloud, Order Cloud
+# 817396 Sitecore Discover
+# 817639 Sitecore Connect
+# 880927 Content Hub
+# 817393 Content Hub One
+# 816669 CDP
