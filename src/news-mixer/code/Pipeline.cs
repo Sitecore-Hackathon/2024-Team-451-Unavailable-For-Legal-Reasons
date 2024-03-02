@@ -7,8 +7,8 @@ namespace NewsMixer
 {
     internal class Pipeline
     {
-        private List<ISourceInput> _inputs = new();
-        private List<PipelineStream> _streams = new();
+        private readonly List<ISourceInput> _inputs = [];
+        private readonly List<PipelineStream> _streams = [];
 
         public Pipeline AddInput(params ISourceInput[]  inputs)
         {
@@ -26,8 +26,8 @@ namespace NewsMixer
 
         public class PipelineStream
         {
-            private List<ITransform> _transforms = new();
-            private List<IOutput> _outputs = new();
+            private readonly List<ITransform> _transforms = [];
+            private readonly List<IOutput> _outputs = [];
 
             public PipelineStream AddTransform(params ITransform[] transforms)
             {
@@ -55,7 +55,7 @@ namespace NewsMixer
 
         public async Task Execute(CancellationToken token)
         {
-            await Parallel.ForEachAsync(_inputs, async (source, ics) =>
+            await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
             {
                 var enumerable = source.Execute(ics);
                 await foreach(var t in enumerable)

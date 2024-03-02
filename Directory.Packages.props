@@ -19,10 +19,11 @@
     <PackageVersion Include="System.Runtime.CompilerServices.Unsafe" Version="6.0.0" />
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
-	<PackageVersion Include="Azure.AI.OpenAI" Version="1.0.0-beta.13" />
-	<PackageVersion Include="coverlet.collector" Version="6.0.1" />
+    <PackageVersion Include="Azure.AI.OpenAI" Version="1.0.0-beta.13" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.1" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7" />
+    <PackageVersion Include="System.ServiceModel.Syndication" Version="8.0.0" />
   </ItemGroup>
 </Project>

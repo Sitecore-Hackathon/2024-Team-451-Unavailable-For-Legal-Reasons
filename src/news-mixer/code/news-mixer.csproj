@@ -9,19 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="InputSources\SitecoreGraph\SitecoreTemplatesGraph.graphql" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="InputSources\SitecoreGraph\SitecoreTemplatesGraph.graphql" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Transforms\OpenAiSummary\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Azure.AI.OpenAI" />
+    <PackageReference Include="System.ServiceModel.Syndication" />
   </ItemGroup>
 
 </Project>

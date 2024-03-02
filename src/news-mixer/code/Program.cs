@@ -9,7 +9,7 @@ Console.WriteLine("Error 451 Unavailable for Legal Reasons");
 Console.WriteLine("");
 
 var source = new DummySourceInput();
-var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY");
+var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? string.Empty;
 var outputFolder = "c:\\temp";
 
 var pipeline = new Pipeline().AddInput(source)
