@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:a10="http://www.w3.org/2005/Atom"
+  version="2.0">
+  <channel
+    xml:base="https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-da.rss">
+    <title>Dine lyriske updates</title>
+    <link>https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-da.rss</link>
+    <description>Summaries from a romantic poet</description>
+    <generator>Team 451 News Mixer</generator>
+    <a10:id>poet-daily-da</a10:id>
+    <item>
+      <title>At opskalere oplevelsen med multi-brand Catalyst og Sitecore XM</title>
+      <description>[en] Sitecore lancerer XM Cloud for hurtigere udrulning af brandsider. Valtech Catalyst automatiserer udrulning, reducerer tid og omkostninger. Lokaliseret indhold med Valtech Catalyst. Automatiseret brandstil for ensartede oplevelser. Øger deploymentshastighed med op til 40% med Valtech Catalyst.</description>
+      <pubDate>Sat, 02 Mar 2024 20:00:10 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+  </channel>
+</rss>

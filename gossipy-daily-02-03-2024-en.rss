@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<rss
+  xmlns:a10="http://www.w3.org/2005/Atom"
+  version="2.0">
+  <channel
+    xml:base="https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/editor-daily.rss">
+    <title>Your editor's daily update</title>
+    <link>https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/editor-daily.rss</link>
+    <description>Summaries from an editor</description>
+    <generator>Team 451 News Mixer</generator>
+    <a10:id>gossipy-editor-daily</a10:id>
+    <item>
+      <title>Scaling the experience with the multi-brand Catalyst and Sitecore XM</title>
+      <description>[en] Sitecore introduces the new XM Cloud, aided by Valtech Catalyst, cutting deployment time by 40%! The Valtech Catalyst boosts the design system, automating brand rollouts on XM Cloud swiftly. Say goodbye to time-consuming multi-brand website deployments as the Catalyst centralizes content structures for efficient consistency. Leverage automated deployment for quicker, consistent brand sites with Valtech Catalyst. Discover how this innovative tool streamlines the process onto Sitecore XM Cloud.</description>
+      <pubDate>Sat, 02 Mar 2024 20:00:10 +0100</pubDate>
+      <a10:link
+        href="https://www.valtech.com/en-dk/blog/scaling-the-experience-with-the-valtech-catalyst-and-sitecore-xm-cloud/" />
+    </item>
+  </channel>
+</rss>
