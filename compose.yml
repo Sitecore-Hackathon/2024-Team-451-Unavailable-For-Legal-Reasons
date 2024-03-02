@@ -24,3 +24,9 @@ services:
         TOOLS_IMAGE: ${TOOLS_IMAGE}
         MANAGEMENT_SERVICES_IMAGE: ${MANAGEMENT_SERVICES_IMAGE}
         HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
+
+  news-mixer:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-news-mixer:${VERSION:-latest}
+    build:
+      dockerfile: src/news-mixer/Dockerfile
+      

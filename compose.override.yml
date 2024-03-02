@@ -177,3 +177,8 @@ services:
       - "traefik.http.routers.cm-secure.rule=Host(`${CM_HOST}`)"
       - "traefik.http.routers.cm-secure.tls=true"
       - "traefik.http.routers.cm-secure.middlewares=force-STS-Header"
+
+  news-mixer:
+    depends_on:
+      cm:
+        condition: service_healthy
