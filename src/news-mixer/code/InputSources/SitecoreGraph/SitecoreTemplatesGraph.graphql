@@ -1,0 +1,35 @@
+﻿fragment resultFields on Item {
+    title: {titleField} { value }
+    content: {contentField} { value }
+    url {
+        path
+    }
+}
+
+query {
+  search(
+    where: {
+      AND:[
+        {
+          name: "_path",
+          value: "{rootItemId}",
+          operator: CONTAINS
+        },
+        { name: "_language",  value: "{language}" },
+        { name: "_hasLayout", value: "true" },
+        { name: "_templates", value: "{templateId}", operator: CONTAINS }
+      ]
+    }
+    first: 100
+    after: {nextToken}
+  ) {
+    total
+    pageInfo {
+      endCursor
+      hasNext
+    }
+    results {
+      ...resultFields
+    }
+  }
+}
