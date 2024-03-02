@@ -17,21 +17,6 @@ namespace NewsMixer.InputSources.SitecoreGraph
 
         public async IAsyncEnumerable<NewsItem> Execute([EnumeratorCancellation] CancellationToken cancellationToken)
         {
-            await foreach (var item in GetContentAsync(cancellationToken))
-            {
-                yield return new NewsItem
-                {
-                    Title = item.Title.Value,
-                    Content = item.Content.Value,
-                    Date = DateTime.UtcNow,
-                    OriginalLanguage = _config.Language,
-                    Categories = ["woop", "test"]
-                };
-            }
-        }
-
-        public async IAsyncEnumerable<ResultDto> GetContentAsync([EnumeratorCancellation] CancellationToken cancellationToken)
-        {
             using var client = await _graphQlClientFactory.CreateClientAsync(_config.EndPoint, cancellationToken);
             GraphQLResponse<GetContentResponseDto> response = null!;
 
@@ -41,7 +26,14 @@ namespace NewsMixer.InputSources.SitecoreGraph
 
                 foreach (var item in response.Data.Search.Results)
                 {
-                    yield return item;
+                    yield return new NewsItem
+                    {
+                        Title = item.Title.Value,
+                        Content = item.Content.Value,
+                        Date = DateTime.UtcNow,
+                        OriginalLanguage = _config.Language,
+                        Categories = ["woop", "test"]
+                    };
                 }
             } while (response.Data.Search.PageInfo.HasNext);
         }

@@ -34,7 +34,7 @@
         { name: "_language", value: $language }
       ]
     }
-    first: 5
+    first: 100
     after: $cursor
   ) {
     total
