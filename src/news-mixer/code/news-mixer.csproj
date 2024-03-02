@@ -17,9 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="InputSources\DummySource\" />
     <Folder Include="Output\RssFile\" />
-    <Folder Include="Transforms\DummySummary\" />
     <Folder Include="Transforms\OpenAiSummary\" />
   </ItemGroup>
 
