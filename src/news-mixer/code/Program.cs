@@ -3,20 +3,20 @@ using GraphQL.Client.Serializer.SystemTextJson;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NewsMixer;
+using NewsMixer.InputSources.DummySource;
 using NewsMixer.InputSources.SitecoreGraph;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
 
-var pipeline = new Pipeline();
+
 var services = new ServiceCollection();
 
 services.AddHttpClient()
         .AddSingleton<AuthenticationTokenService>()
         .AddSingleton<IGraphQLWebsocketJsonSerializer>(new SystemTextJsonSerializer())
         .AddSingleton<GraphQlClientFactory>()
-        .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)))
-        .AddSingleton(x => pipeline);
+        .AddSingleton(LoggerFactory.Create(builder => builder.AddConsole().SetMinimumLevel(LogLevel.Debug).AddFilter(typeof(HttpClient).Namespace, LogLevel.Warning)));
 
 var serviceProvider = services.BuildServiceProvider();
 var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
@@ -49,7 +49,8 @@ var config = new SitecoreTemplatesGraphConfiguration
     RootItemId = new Guid("110D559F-DEA5-42EA-9C1C-8A5DF7E70EF9"),
 };
 
-var source = new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>());
+var pipeline = new Pipeline(logger);
+var source = new DummySourceInput();//new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>());
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
@@ -185,4 +186,4 @@ Console.CancelKeyPress += (s, e) =>
 // start
 await pipeline.Execute(cts.Token);
 
-logger.LogInformation("finished.");
+Console.WriteLine("Completed.");
