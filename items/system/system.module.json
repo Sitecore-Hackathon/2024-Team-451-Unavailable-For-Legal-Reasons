@@ -2,6 +2,11 @@
   "namespace": "system",
   "references": [],
   "items": {
-    "includes": []
+    "includes": [
+      {
+        "name": "apikeys",
+        "path": "/sitecore/system/Settings/Services/API Keys"
+      }
+    ]
   }
 }

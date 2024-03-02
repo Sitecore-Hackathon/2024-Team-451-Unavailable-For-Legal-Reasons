@@ -20,6 +20,11 @@ services:
         target: \\.\pipe\docker_engine
         type: npipe
       - ./docker/traefik:C:/etc/traefik
+    depends_on:
+      cm:
+        condition: service_started
+      id:
+        condition: service_started
 
   mssql:
     isolation: ${DEFAULT_ISOLATION}
@@ -29,7 +34,7 @@ services:
       ACCEPT_EULA: "Y"
     volumes:
       - type: bind
-        source: ${LOCAL_DATA_PATH}/sql
+        source: ${LOCAL_DATA_PATH}/mssql
         target: C:/data
     deploy:
       resources:
@@ -97,11 +102,11 @@ services:
       Sitecore_Sitecore__IdentityServer__AccountOptions__PasswordRecoveryUrl: https://${CM_HOST}/sitecore/login?rc=1
       Sitecore_Sitecore__IdentityServer__Clients__PasswordClient__ClientSecrets__ClientSecret1: ${SITECORE_IDSECRET}
       Sitecore_Sitecore__IdentityServer__Clients__CliServerClient__ClientSecrets__ClientSecret1: ${SITECORE_IDSECRET}
+      Sitecore_Sitecore__IdentityServer__Clients__NewsMixerClient__ClientSecrets__ClientSecret1: ${SITECORE_IDSECRET}
       Sitecore_Sitecore__IdentityServer__Clients__DefaultClient__AllowedCorsOrigins__AllowedCorsOriginsGroup1: https://${CM_HOST}
       Sitecore_Sitecore__IdentityServer__CertificateRawData: ${SITECORE_ID_CERTIFICATE}
       Sitecore_Sitecore__IdentityServer__PublicOrigin: https://${ID_HOST}
       Sitecore_Sitecore__IdentityServer__CertificateRawDataPassword: ${SITECORE_ID_CERTIFICATE_PASSWORD}
-      Sitecore_Sitecore__ExternalIdentityProviders__IdentityProviders__AzureAd__ClientId: "a18bbcf6-11c3-48bd-b8d4-7c650c65292d"
       SITECORE_LICENSE_LOCATION: C:\license\license.xml
       Sitecore_License: ${SITECORE_LICENSE}
     healthcheck:

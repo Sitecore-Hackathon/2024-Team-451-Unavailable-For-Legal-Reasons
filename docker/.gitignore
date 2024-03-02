@@ -1,8 +1,8 @@
 /data/cm/logs/*
 !/data/cm/logs/
 !/data/cm/logs/.gitkeep
-/data/sql/*
-!/data/sql/.gitkeep
+/data/mssql/*
+!/data/mssql/.gitkeep
 /data/solr/*
 !/data/solr/.gitkeep
 

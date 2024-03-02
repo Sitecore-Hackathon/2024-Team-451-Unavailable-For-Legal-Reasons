@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Sitecore>
+    <IdentityServer>
+      <Clients>
+        <NewsMixerClient>
+          <ClientId>newsmixer</ClientId>
+          <ClientName>newsmixer</ClientName>
+          <AccessTokenType>0</AccessTokenType>
+          <AllowOfflineAccess>true</AllowOfflineAccess>
+          <AlwaysIncludeUserClaimsInIdToken>true</AlwaysIncludeUserClaimsInIdToken>
+          <AccessTokenLifetimeInSeconds>600</AccessTokenLifetimeInSeconds>
+          <IdentityTokenLifetimeInSeconds>600</IdentityTokenLifetimeInSeconds>
+          <RequireConsent>false</RequireConsent>
+          <RequireClientSecret>false</RequireClientSecret>
+          <AllowedGrantTypes>
+            <GrantPassword>password</GrantPassword>
+          </AllowedGrantTypes>
+          <ClientSecrets>
+            <ClientSecret1></ClientSecret1>
+          </ClientSecrets>
+          <AllowedScopes>
+            <OpenId>openid</OpenId>
+            <Profile>sitecore.profile</Profile>
+            <ProfileApi>sitecore.profile.api</ProfileApi>
+            <Offline>offline_access</Offline>
+          </AllowedScopes>
+          <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
+        </NewsMixerClient>
+      </Clients>
+    </IdentityServer>
+  </Sitecore>
+</Settings>

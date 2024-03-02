@@ -46,14 +46,7 @@ COPY . .
 
 # apply transformations
 RUN & 'C:\\tools\\scripts\\Invoke-XdtTransform.ps1' -Path 'C:\\inetpub\\wwwroot\\Web.config' -XdtPath 'C:\\inetpub\\wwwroot\\Web.Common.config.xdt'; `
-    Remove-Item -Path 'C:\\inetpub\\wwwroot\\*.xdt' -Exclude "*.deploy.xdt" -Force; `
-    Remove-Item -Path 'C:\\inetpub\\wwwroot\\App_Config\\*.xdt' -Exclude "*.deploy.*.xdt" -Force;
-
-# delete files in packages folder so it can be mounted
-RUN Remove-Item -Path 'C:\inetpub\wwwroot\App_Data\packages\*'; `
-    # remove some Sitecore default config files
-    Remove-Item -Path 'C:\\inetpub\\wwwroot\\App_Config\\Include\\InstanceName.config' -Force; `
-    Remove-Item -Path 'C:\\inetpub\\wwwroot\\App_Config\\Include\\MediaRequestProtectionSecret.config' -Force;
+    Remove-Item -Path 'C:\\inetpub\\wwwroot\\*.xdt' -Force;
 
 # copy Sitecore hotfixes
 COPY --from=deltaAssetImage /platform/cm/inetpub/wwwroot/ ./

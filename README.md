@@ -28,6 +28,7 @@ Best use of AI
 ## Pre-requisites and Dependencies
 
 - Windows 11
+- Visual Studio 2022
 - Some Docker engine, for example [Docker Desktop](https://desktop.docker.com/win/stable/amd64/Docker%20Desktop%20Installer.exe)
 
 ## Installation instructions
@@ -44,6 +45,7 @@ Best use of AI
 1. Run `.\Invoke-Build.ps1` if you have build tools such as `msbuild`, `nuget` in your path **OR** publish `Platform` project in Visual Studio.
 1. Run `docker-compose up -d --build`
 1. Run `dotnet sitecore login --authority https://id.team451.localhost --cm https://cm.team451.localhost --allow-write true`
+1. Run `dotnet sitecore index schema-populate`
 1. Run `dotnet sitecore ser push`
 
 ### Configuration
