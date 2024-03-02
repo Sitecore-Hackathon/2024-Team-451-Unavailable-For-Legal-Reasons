@@ -131,4 +131,7 @@ Please note that the published feeds are not updated as part of the solution, th
 
 - Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
 - **News Mixer** Admin Interface (Sitecore or alternative): Enable *Role* to generally configure Transformers and Sources and pair them with each other
- 
+
+### Restricted OpenAI usage
+
+In the solution a Source wrapping other sources have been added to limit the amount of content sent through to OpenAI. This is done to **minimize cost, rate limit usages and environmental impact** when using the **News Mixer** PoC.
