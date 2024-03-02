@@ -24,7 +24,7 @@ Authorization: 01-5370450c-b5ef9b415170c314ee8bc9c99d4f51410f601cb8
                     "limit": 5
                 },
                 "sources": [
-                    "816669"
+                    "823118"
                 ]
             }
         ]
@@ -44,6 +44,6 @@ Authorization: 01-5370450c-b5ef9b415170c314ee8bc9c99d4f51410f601cb8
 # 817394 Commerce Cloud, Order Cloud
 # 817396 Sitecore Discover
 # 817639 Sitecore Connect
-# 880927 Content Hub
-# 817393 Content Hub One
-# 816669 CDP
+# 880927 Content Cloud, Content Hub
+# 817393 Content Cloud, Content Hub One
+# 816669 Engagement Cloud, Sitecore CDP
