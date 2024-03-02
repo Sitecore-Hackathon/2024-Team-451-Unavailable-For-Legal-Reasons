@@ -18,7 +18,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-launchSettings.json
+**/launchSettings.json
 
 #Ignore thumbnails created by Windows
 Thumbs.db
