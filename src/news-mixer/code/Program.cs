@@ -1,18 +1,69 @@
-﻿using NewsMixer.InputSources.DummySource;
+﻿using NewsMixer;
+using NewsMixer.InputSources.DummySource;
 using NewsMixer.Output.Console;
-using NewsMixer.Transforms.DummySummary;
+using NewsMixer.Output.RssFile;
+using NewsMixer.Transforms.OpenAiSummary;
 
 Console.WriteLine("This is the NewsMixer!");
-Console.WriteLine("Error 451 Unavailable for Legal Resons");
+Console.WriteLine("Error 451 Unavailable for Legal Reasons");
 Console.WriteLine("");
 
 var source = new DummySourceInput();
-var transform = new DummySummaryTransform();
-var output = new ConsoleOutput();
+var apiKey = System.Environment.GetEnvironmentVariable("OPENAI_APIKEY");
+var outputFolder = "c:\\temp";
 
-var token = new CancellationToken();
-var enumerable1 = source.Execute(token);
-var enumerable2 = transform.Execute(enumerable1, token);
-var result = output.Execute(enumerable2, token);
+var pipeline = new Pipeline().AddInput(source)
+    .AddStream(cfg =>
+    {
+        cfg.AddTransform(
+        new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
+        {
+            ApiKey = apiKey,
+            AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
+            Language = "English",
+        })
+        );
+        cfg.AddOutput(
+            new RssFileOutput(new RssFileConfiguration
+            {
+                Digest = DigestFormat.Daily,
+                FileFormatPattern = "poet-daily-{date}.rss",
+                OutputFolder = outputFolder,
+            }),
+            new RssFileOutput(new RssFileConfiguration
+            {
+                Digest = DigestFormat.Weekly,
+                FileFormatPattern = "poet-weekly-{date}.rss",
+                OutputFolder = outputFolder,
+            }),
+            new ConsoleOutput("[Poet] ")
+        );
+    })
+    .AddStream(cfg =>
+    {
+        cfg.AddTransform(
+        new OpenAiSummaryTransform(new OpenAiSummaryConfiguration()
+        {
+            ApiKey = apiKey,
+            AiBehavior = "You are a gossipy news editor who likes to use click-baits and have a victorian writing style",
+            Language = "da-DK"
+        })
+        );
+        cfg.AddOutput(
+            new RssFileOutput(new RssFileConfiguration
+            {
+                Digest = DigestFormat.Daily,
+                FileFormatPattern = "gossipy-daily-{date}-da-DK.rss",
+                OutputFolder = outputFolder,
+            }),
+            new RssFileOutput(new RssFileConfiguration
+            {
+                Digest = DigestFormat.Weekly,
+                FileFormatPattern = "gossipy-weekly-{date}-da-DK.rss",
+                OutputFolder = outputFolder,
+            }),
+            new ConsoleOutput("[Gossipy] ")
+        );
+    });
 
-await result;
+await pipeline.Execute(new CancellationToken());

@@ -4,6 +4,6 @@ namespace NewsMixer.Output
 {
     public interface IOutput
     {
-        public Task Execute(IAsyncEnumerable<NewsItem> items, CancellationToken cancellationToken = default);
+        public Task Execute(NewsItem items, CancellationToken cancellationToken = default);
     }
 }

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "news-mixer": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "OPENAI_APIKEY": "<your-key>"
+      }
+    }
+  }
+}
