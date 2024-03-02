@@ -127,8 +127,8 @@ Please note that the published feeds are not updated as part of the solution, th
 
 ## Comments
 
-###Ideas for future development (apart from input/output sources and transformers)
+### Ideas for future development (apart from input/output sources and transformers)
 
 - Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
-- **News Mixer** Admin Interface (Sitecore or alternative): Enable *<ROLE>* to generally configure Transformers and Sources and pair them with each other
+- **News Mixer** Admin Interface (Sitecore or alternative): Enable *"<ROLE>"* to generally configure Transformers and Sources and pair them with each other
  

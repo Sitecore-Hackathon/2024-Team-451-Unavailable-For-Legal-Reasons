@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using NewsMixer;
 using NewsMixer.InputSources.DummySource;
 using NewsMixer.InputSources.SitecoreGraph;
+using NewsMixer.InputSources.SitecoreSearch;
 using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
@@ -54,12 +55,19 @@ var config = new SitecoreTemplatesGraphConfiguration
 };
 
 var pipeline = new Pipeline(logger);
-var source = new DummySourceInput();//new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>());
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
-pipeline.AddInput(source)
+pipeline.AddInput(
+    // new SitecoreGraphInputSource(config, serviceProvider.GetRequiredService<GraphQlClientFactory>()),
+    // new SitecoreSearchSource(new()
+    // {
+    //     QueryPhrase = "GraphQL",
+    //     Limit = 2,
+    // }),
+    new DummySourceInput()
+    )
     .AddStream(cfg =>
     {
         cfg.AddTransform(
