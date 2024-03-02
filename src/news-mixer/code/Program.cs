@@ -4,16 +4,16 @@ using NewsMixer.Output.Console;
 using NewsMixer.Output.RssFile;
 using NewsMixer.Transforms.OpenAiSummary;
 
-Console.WriteLine("This is the NewsMixer!");
-Console.WriteLine("Error 451 Unavailable for Legal Reasons");
-Console.WriteLine("");
+var builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddHostedService<Worker>();
 
 var source = new DummySourceInput();
 var apiKey = Environment.GetEnvironmentVariable("OPENAI_APIKEY") ?? throw new ArgumentException("OPENAI_APIKEY environment variable is missing.");
 var outputFolder = Environment.GetEnvironmentVariable("OUTPUT_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("OUTPUT_DIR or TEMP environment variable is missing.");
 var baseUrl = Environment.GetEnvironmentVariable("FEED_BASEURL") ?? "https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons";
 
-// Setup pipeline
+// setup pipeline
 var pipeline = new Pipeline().AddInput(source)
     .AddStream(cfg =>
     {
@@ -23,13 +23,14 @@ var pipeline = new Pipeline().AddInput(source)
                 ApiKey = apiKey,
                 Language = "en",
             }),
-        new OpenAiSummaryTransform(new()
-        {
-            ApiKey = apiKey,
-            AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
-            Language = "en",
-        })
+            new OpenAiSummaryTransform(new()
+            {
+                ApiKey = apiKey,
+                AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
+                Language = "en",
+            })
         );
+
         cfg.AddOutput(
             new RssFileOutput(new()
             {
@@ -53,7 +54,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet en] ")
+            new ConsoleOutput("[Poet en]")
         );
     })
     .AddStream(cfg =>
@@ -94,7 +95,7 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/editor-daily.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Gossipy en] ")
+            new ConsoleOutput("[Gossipy en]")
         );
     })
     .AddStream(cfg =>
@@ -111,7 +112,7 @@ var pipeline = new Pipeline().AddInput(source)
                 AiBehavior = "You are a romantic poet that only uses up to four syllabuses in each word",
                 Language = "da-DK",
             })
-            );
+        );
         cfg.AddOutput(
             new RssFileOutput(new()
             {
@@ -124,18 +125,12 @@ var pipeline = new Pipeline().AddInput(source)
                 FeedUrl = new Uri($"{baseUrl}/poet-weekly-da.rss"),
                 SiteUrl = new Uri($"{baseUrl}")
             }),
-            new ConsoleOutput("[Poet da] ")
-            );
+            new ConsoleOutput("[Poet da]")
+        );
     });
 
-// Handle Ctrl+C grcefully
-var cts = new CancellationTokenSource();
-Console.CancelKeyPress += (s, e) =>
-{
-    Console.WriteLine("Canceling...");
-    cts.Cancel();
-    e.Cancel = true;
-};
+builder.Services.AddSingleton(pipeline);
 
-// Start running
-await pipeline.Execute(cts.Token);
+var host = builder.Build();
+
+await host.RunAsync();

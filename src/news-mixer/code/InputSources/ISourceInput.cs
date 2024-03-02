@@ -2,7 +2,7 @@
 
 namespace NewsMixer.InputSources
 {
-    internal interface ISourceInput
+    public interface ISourceInput
     {
         public IAsyncEnumerable<NewsItem> Execute(CancellationToken cancellationToken);
     }

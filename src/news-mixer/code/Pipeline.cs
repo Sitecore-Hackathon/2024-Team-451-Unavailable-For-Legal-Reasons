@@ -5,7 +5,7 @@ using NewsMixer.Transforms;
 
 namespace NewsMixer
 {
-    internal class Pipeline
+    public class Pipeline
     {
         private readonly List<ISourceInput> _inputs = [];
         private readonly List<PipelineStream> _streams = [];
@@ -13,14 +13,18 @@ namespace NewsMixer
         public Pipeline AddInput(params ISourceInput[] inputs)
         {
             _inputs.AddRange(inputs);
+
             return this;
         }
 
         public Pipeline AddStream(Action<PipelineStream> cfg)
         {
             var stream = new PipelineStream();
+
             cfg(stream);
+
             _streams.Add(stream);
+
             return this;
         }
 
@@ -53,20 +57,18 @@ namespace NewsMixer
             }
         }
 
-        public async Task Execute(CancellationToken token)
-        {
-            await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
-            {
-                var enumerable = source.Execute(ics);
-                await foreach(var t in enumerable)
-                {
-                    await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
-                    {
-                        await stream.Execute(t, ics2);
-                    });
-                }
-            });
-        }
+        public async Task Execute(CancellationToken token) => await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
+                                                                       {
+                                                                           var enumerable = source.Execute(ics);
+
+                                                                           await foreach (var t in enumerable)
+                                                                           {
+                                                                               await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
+                                                                               {
+                                                                                   await stream.Execute(t, ics2);
+                                                                               });
+                                                                           }
+                                                                       });
     }
 
     public interface IPipelineConfig
