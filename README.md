@@ -77,6 +77,8 @@ The use cases could even be combined into one providing for instance localized a
 
 <!-- TODO -->
 
+[The slideshow used for the video](docs/pdfs/VideoPresentation.pdf)
+
 ## Pre-requisites and Dependencies
 
 - Windows 11
