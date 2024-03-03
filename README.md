@@ -25,7 +25,7 @@ All components colored green are implemented in the solution.
 
 ### Module Purpose
 
-The purpose of **News Mixer** is to automate the process of providing an overview of (parts of) a specified content repository. There are a multitude of use cases for this and to illustrate the potential of **News Mixer** a set of use cases is provided in the following. 
+The purpose of **News Mixer** is to automate the process of providing an overview of (parts of) a specified set of content sources. There are a multitude of use cases for this and to illustrate the potential of **News Mixer** a set of use cases is provided in the following. 
 
 #### Localization
 
