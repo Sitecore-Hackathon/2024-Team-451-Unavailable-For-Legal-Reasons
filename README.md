@@ -15,7 +15,7 @@ Best use of AI
 
 ## Description
 
-**News Mixer** is a multilingual AI driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets. 
+**News Mixer** is a multilingual AI driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets.
 
 ### News Mixer Architecture
 
@@ -25,17 +25,17 @@ All components colored green are implemented in the solution.
 
 ### Module Purpose
 
-The purpose of **News Mixer** is to automate the process of providing an overview of (parts of) a specified set of content sources. There are a multitude of use cases for this and to illustrate the potential of **News Mixer** a set of use cases is provided in the following. 
+The purpose of **News Mixer** is to automate the process of providing an overview of (parts of) a specified set of content sources. There are a multitude of use cases for this and to illustrate the potential of **News Mixer** a set of use cases is provided in the following.
 
 #### Localization
 
-For all the use cases the **News Mixer** allows you to create the summaries in any language (supported by the transformer) and thereby making it easy to cater for consumers of the content that might not be proficient in the original language. This provides an option to with less effort to follow relevant sources on a high level and get notified, when there is content of interest - even if you might not understand the original language. 
+For all the use cases the **News Mixer** allows you to create the summaries in any language (supported by the transformer) and thereby making it easy to cater for consumers of the content that might not be proficient in the original language. This provides an option to with less effort to follow relevant sources on a high level and get notified, when there is content of interest - even if you might not understand the original language.
 
 #### Repeatable Newsletter Based RSS
 
-Let your subscribers know what has happened recently on your website in a consice and factual tone of voice. Or let them know which events and courses you have upcoming and want to promote as if you were selling licenses at the end of the fiscal year. 
+Let your subscribers know what has happened recently on your website in a consice and factual tone of voice. Or let them know which events and courses you have upcoming and want to promote as if you were selling licenses at the end of the fiscal year.
 
-This scenario is implemented as part of the Sitecore 2024 Hackathon submission. The implementation make use of **Sitecore Send**, where both daily and weekly repeatable RSS campaigns have been configured pointing to RSS feeds composed from **Sitecore XM** content, that has been summarized by **News Mixer** leveraging **OpenAI**. As part of the solution all of the content has been generated through OpenAI as well and created in Sitecore XM through the *Authoring* Api.    
+This scenario is implemented as part of the Sitecore 2024 Hackathon submission. The implementation make use of **Sitecore Send**, where both daily and weekly repeatable RSS campaigns have been configured pointing to RSS feeds composed from **Sitecore XM** content, that has been summarized by **News Mixer** leveraging **OpenAI**. As part of the solution all of the content has been generated through OpenAI as well and created in Sitecore XM through the *Authoring* Api.
 
 Obviously this scenario comes in variations: It need not be an RSS feed which is the output, it could for instance be that the newsletter is created on the fly. Likewise it could be other products than **Sitecore Send** used to ship the newsletter. Finally the RSS and newsletter format could have been another output target for instance your organization's Intranet, potentially feeding the generated content back into **Sitecore XM/XP/Cloud**.
 
@@ -64,11 +64,11 @@ The use cases could even be combined into one providing for instance localized a
 - GraphQL (Sitecore XM/XP/XM Cloud)
 - Sitecore Search
 
-### Currently Supported Transformers 
+### Currently Supported Transformers
 
 - OpenAI
 
-### Currently Supported Output Tragets
+### Currently Supported Output Targets
 
 - Console
 - RSS files (in daily and weekly digests)
@@ -109,7 +109,7 @@ An API Key for OpenAI is necessary. It can be specified in one of the following 
 
 ## Usage instructions
 
-Currently the implemented scenario of **News Mixer** relies on developer configuration. It is executed through a Console Application ``src/news-mixer/code/Program.cs`` which is set as startup project for the solution or can be run by running *news-mixer.exe* after having build the solution. 
+Currently the implemented scenario of **News Mixer** relies on developer configuration. It is executed through a Console Application ``src/news-mixer/code/Program.cs`` which is set as startup project for the solution or can be run by running *news-mixer.exe* after having build the solution.
 
 When running the program five RSS files are created with the configured AI behavior and the output is also sent to the console.
 
@@ -117,7 +117,7 @@ The implemented scenario relies on content from **Sitecore XM** and the [Sitecor
 
 The newsletters are configured in **Sitecore Send** - screenshots of the configuration and the mail sent for two of the feeds are placed in [NewsletterConfigurationAndMail](docs/pdfs/NewsletterConfigurationAndMail.pdf) the same configuration should be imitated on an accessible **Sitecore Send** account if to try out the entire flow.
 
-The RSS feeds are published as Github Pages on the following URL's: 
+The RSS feeds are published as Github Pages on the following URL's:
 
 - [Gossipy News Editor, daily](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/gossipy-daily-02-03-2024-en.rss)
 - [Gossipy News Editor, weekly](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/gossipy-weekly-week-9-en.rss)
@@ -131,7 +131,7 @@ Please note that the published feeds are not updated as part of the solution, th
 
 ### Ideas for future development (apart from input/output sources and transformers)
 
-- Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
+- Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the
 - **News Mixer** Admin Interface (Sitecore or alternative): Enable *Role* to generally configure Transformers and Sources and pair them with each other
 
 ### Restricted OpenAI usage
