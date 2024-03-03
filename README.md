@@ -15,7 +15,7 @@ Best use of AI
 
 ## Description
 
-**News Mixer** is a multilingual AI-driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets. 
+**News Mixer** is a multilingual AI-driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets.
 
 ### News Mixer Architecture
 
@@ -75,7 +75,7 @@ The use cases could even be combined into one providing for instance localized a
 
 ## Video link
 
-<!-- TODO -->
+<https://youtu.be/fNAoU6GN0a0>
 
 ## Pre-requisites and Dependencies
 
