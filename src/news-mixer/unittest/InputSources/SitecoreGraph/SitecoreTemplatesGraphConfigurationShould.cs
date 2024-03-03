@@ -85,10 +85,11 @@ namespace NewsMixer.UnitTests.InputSources.SitecoreGraph
 
             await foreach (var item in source.Execute(CancellationToken.None))
             {
-                _output.WriteLine(item.Title);
+                _output.WriteLine(item.Title[..30] + "=" + item.Url.ToString());
 
                 Assert.NotNull(item.Title);
                 Assert.NotNull(item.Content);
+                Assert.NotNull(item.Url);
 
                 Interlocked.Increment(ref count);
             }
