@@ -17,9 +17,11 @@ Best use of AI
 
 **News Mixer** is a multilingual AI driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets. 
 
-### News Mixer 
+### News Mixer Architecture
 
 ![Architecture diagram](docs/diagram/diagram.png)
+
+All components colored green are implemented in the solution.
 
 ### Module Purpose
 
@@ -123,7 +125,7 @@ The RSS feeds are published as Github Pages on the following URL's:
 - [Poet, weekly](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-week-9.rss)
 - [Poet, weekly, Danish](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-week-9-da.rss)
 
-Please note that the published feeds are not updated as part of the solution, they are generated as files in ``out/`` if run through Docker as described in section *Startup* above. So if to try the entire scenario with other content than the provided feeds - new feeds must be published to a location that can be pointed to in the **Sitecore Send** configuration.
+Please note that the published feeds are not updated as part of the solution, they are generated as files in ``out/`` if run through Docker as described in section [Startup](https://github.com/Sitecore-Hackathon/2024-Team-451-Unavailable-For-Legal-Reasons/tree/dev?tab=readme-ov-file#startup) above. So if to try the entire scenario with other content than the provided feeds - new feeds must be published to a location that can be pointed to in the **Sitecore Send** configuration.
 
 ## Comments
 
@@ -131,4 +133,7 @@ Please note that the published feeds are not updated as part of the solution, th
 
 - Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
 - **News Mixer** Admin Interface (Sitecore or alternative): Enable *Role* to generally configure Transformers and Sources and pair them with each other
- 
+
+### Restricted OpenAI usage
+
+In the solution a Source wrapping other sources have been added to limit the amount of content sent through to OpenAI. This is done to **minimize cost, rate limit usages and environmental impact** when using the **News Mixer** PoC.
