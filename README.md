@@ -15,7 +15,7 @@ Best use of AI
 
 ## Description
 
-**News Mixer** is a multilingual AI driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets. 
+**News Mixer** is a multilingual AI-driven summary generator, consuming content from one or more sources. The content is then being processed by a variety of configurable AI based transformers to create the summaries in the desired style, after which it is outputted to the desired targets. 
 
 ### News Mixer Architecture
 
@@ -131,7 +131,9 @@ Please note that the published feeds are not updated as part of the solution, th
 
 ### Ideas for future development (apart from input/output sources and transformers)
 
-- Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the 
+- Implement usage of Categories (for instance to be used in relation to segmentated content and the structure of Newsletters)
+- Add support for images in the RSS feeds.
+- Sitecore Module - Repeatable Newsletter Configurator: Let it be up to marketers to configure the RSS Feed output as well as Transformer style for the different category types
 - **News Mixer** Admin Interface (Sitecore or alternative): Enable *Role* to generally configure Transformers and Sources and pair them with each other
 
 ### Restricted OpenAI usage
