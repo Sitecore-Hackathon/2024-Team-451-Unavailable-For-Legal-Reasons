@@ -3,7 +3,9 @@
     "news-mixer": {
       "commandName": "Project",
       "environmentVariables": {
-        "OPENAI_APIKEY": "<your-key>"
+        "OPENAI_APIKEY": "<your-key>",
+        "CACHE_DIR": "c:\\temp\\cache",
+        "OUTPUT_DIR": "c:\\temp\\out"
       }
     }
   }

@@ -186,4 +186,5 @@ services:
       - ./out:c:\out
     environment:
       OPENAI_APIKEY: ${OPENAI_APIKEY}
-      OUTPUT_DIR: c:\out
+      OUTPUT_DIR: c:\out\feeds
+      CACHE_DIR: c:\out\cache

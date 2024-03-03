@@ -14,10 +14,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
 
     public class OpenAiTitleTranslation(OpenAiTitleConfiguration config, IHttpClientFactory httpClientFactory) : ITransform
     {
-        private readonly OpenAIClient _client = new(config.ApiKey, new OpenAIClientOptions
-        {
-            Transport = new HttpClientTransport(httpClientFactory.CreateClient()),
-        });
+        private readonly IOpenAiClient _client = new OpenAiPersistedCacheClient(config.ApiKey, httpClientFactory.CreateClient());
 
         public async Task<NewsItem> Execute(NewsItem itm, ILogger logger, CancellationToken cancellationToken)
         {
@@ -38,16 +35,13 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 return itm;
             }
 
-            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsOptions
+            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsRequest
             {
                 DeploymentName = config.DeploymentName,
-                Messages =
-                {
-                    new ChatRequestUserMessage("Please give me the following title in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Title),
-                }
+                UserMessage = "Please give me the following title in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Title,
             }, cancellationToken);
 
-            itm.Title = string.Join("\n", result.Value.Choices.Select(x => x.Message?.Content));
+            itm.Title = result;
             itm.ContentLanguage = resultLanguage;
 
             if (logger.IsEnabled(LogLevel.Debug))

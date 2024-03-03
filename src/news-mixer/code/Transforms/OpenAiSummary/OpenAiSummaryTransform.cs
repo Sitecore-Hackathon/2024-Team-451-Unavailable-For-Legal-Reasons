@@ -16,10 +16,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
 
     public class OpenAiSummaryTransform(OpenAiSummaryConfiguration config, IHttpClientFactory httpClientFactory) : ITransform
     {
-        private readonly OpenAIClient _client = new(config.ApiKey, new OpenAIClientOptions
-        {
-            Transport = new HttpClientTransport(httpClientFactory.CreateClient())
-        });
+        private readonly IOpenAiClient _client = new OpenAiPersistedCacheClient(config.ApiKey, httpClientFactory.CreateClient());
 
         public async Task<NewsItem> Execute(NewsItem itm, ILogger logger, CancellationToken cancellationToken)
         {
@@ -30,17 +27,14 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 logger.LogDebug("executing transformer {transformer} for language={language}...", nameof(OpenAiSummaryTransform), resultLanguage);
             }
 
-            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsOptions
+            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsRequest
             {
                 DeploymentName = config.DeploymentName,
-                Messages =
-                {
-                    new ChatRequestSystemMessage(config.AiBehavior),
-                    new ChatRequestUserMessage(config.UserPrompt + "Create the summary in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Content),
-                }
+                SystemMessage = config.AiBehavior,
+                UserMessage = config.UserPrompt + "Create the summary in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Content,
             }, cancellationToken);
 
-            itm.Content = string.Join("\n", result.Value.Choices.Select(x => x.Message?.Content));
+            itm.Content = result;
             itm.ContentLanguage = resultLanguage;
 
             if (logger.IsEnabled(LogLevel.Debug))
