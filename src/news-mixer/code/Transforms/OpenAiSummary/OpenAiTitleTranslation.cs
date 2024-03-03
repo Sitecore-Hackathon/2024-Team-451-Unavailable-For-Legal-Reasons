@@ -1,6 +1,4 @@
-﻿using Azure.AI.OpenAI;
-using Azure.Core.Pipeline;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NewsMixer.Models;
 
 namespace NewsMixer.Transforms.OpenAiSummary
@@ -35,7 +33,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 return itm;
             }
 
-            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsRequest
+            var result = await _client.GetChatCompletionsAsync(logger, new ChatCompletionsRequest
             {
                 DeploymentName = config.DeploymentName,
                 UserMessage = "Please give me the following title in {Language}.".Replace("{Language}", resultLanguage) + "\n\n" + itm.Title,

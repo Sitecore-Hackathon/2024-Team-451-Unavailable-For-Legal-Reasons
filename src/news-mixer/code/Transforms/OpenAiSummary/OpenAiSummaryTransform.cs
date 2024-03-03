@@ -1,6 +1,4 @@
-﻿using Azure.AI.OpenAI;
-using Azure.Core.Pipeline;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NewsMixer.Models;
 
 namespace NewsMixer.Transforms.OpenAiSummary
@@ -27,7 +25,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
                 logger.LogDebug("executing transformer {transformer} for language={language}...", nameof(OpenAiSummaryTransform), resultLanguage);
             }
 
-            var result = await _client.GetChatCompletionsAsync(new ChatCompletionsRequest
+            var result = await _client.GetChatCompletionsAsync(logger, new ChatCompletionsRequest
             {
                 DeploymentName = config.DeploymentName,
                 SystemMessage = config.AiBehavior,

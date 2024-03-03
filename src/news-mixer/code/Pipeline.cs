@@ -6,16 +6,12 @@ using NewsMixer.Transforms;
 
 namespace NewsMixer
 {
-    public class Pipeline
+    public class Pipeline(ILoggerFactory loggerFactory)
     {
-        public Pipeline(ILogger logger)
-        {
-            _logger = logger;
-        }
-
         private readonly List<ISourceInput> _inputs = [];
         private readonly List<PipelineStream> _streams = [];
-        private readonly ILogger _logger;
+        private readonly ILoggerFactory _loggerFactory = loggerFactory;
+        private readonly ILogger _logger = loggerFactory.CreateLogger<Pipeline>();
 
         public Pipeline AddInput(params ISourceInput[] inputs)
         {
@@ -26,7 +22,7 @@ namespace NewsMixer
 
         public Pipeline AddStream(Action<PipelineStream> cfg)
         {
-            var stream = new PipelineStream(_logger);
+            var stream = new PipelineStream(_loggerFactory);
 
             cfg(stream);
 
@@ -35,11 +31,11 @@ namespace NewsMixer
             return this;
         }
 
-        public class PipelineStream(ILogger logger)
+        public class PipelineStream(ILoggerFactory loggerFactory)
         {
-
             private readonly List<ITransform> _transforms = [];
             private readonly List<IOutput> _outputs = [];
+            private readonly ILogger _logger = loggerFactory.CreateLogger<PipelineStream>();
 
             public PipelineStream AddTransform(params ITransform[] transforms)
             {
@@ -57,21 +53,36 @@ namespace NewsMixer
 
             public async Task Execute(NewsItem input, CancellationToken token)
             {
-                if (logger.IsEnabled(LogLevel.Debug))
+                if (_logger.IsEnabled(LogLevel.Debug))
                 {
-                    logger.LogDebug("executing stream...");
+                    _logger.LogDebug("executing stream...");
                 }
 
                 var itm = input;
 
                 foreach (var t in _transforms)
                 {
-                    itm = await t.Execute(itm, logger, token);
+                    if (_logger.IsEnabled(LogLevel.Debug))
+                    {
+                        _logger.LogDebug("executing transform...");
+                    }
+
+                    itm = await t.Execute(itm, _logger, token);
+
+                    if (_logger.IsEnabled(LogLevel.Debug))
+                    {
+                        _logger.LogDebug("transform completed");
+                    }
                 }
 
                 foreach (var output in _outputs)
                 {
                     await output.Execute(itm, token);
+                }
+
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug("stream completed.");
                 }
             }
         }

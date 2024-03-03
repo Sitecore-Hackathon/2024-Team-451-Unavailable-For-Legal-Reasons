@@ -1,6 +1,7 @@
 ﻿using Azure;
 using Azure.AI.OpenAI;
 using Azure.Core.Pipeline;
+using Microsoft.Extensions.Logging;
 using System.Security.Cryptography;
 using System.Text.Json;
 
@@ -15,7 +16,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
 
     public interface IOpenAiClient
     {
-        Task<string> GetChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken);
+        Task<string> GetChatCompletionsAsync(ILogger logger, ChatCompletionsRequest request, CancellationToken cancellationToken);
     }
 
     public class OpenAiPersistedCacheClient(string apiKey, HttpClient httpClient) : IOpenAiClient
@@ -28,7 +29,7 @@ namespace NewsMixer.Transforms.OpenAiSummary
         private readonly DirectoryInfo _cacheDir = new DirectoryInfo(
             Environment.GetEnvironmentVariable("CACHE_DIR") ?? Environment.GetEnvironmentVariable("TEMP") ?? throw new ArgumentException("Either CACHE_DIR or TEMP must be specified"));
 
-        public async Task<string> GetChatCompletionsAsync(ChatCompletionsRequest request, CancellationToken cancellationToken)
+        public async Task<string> GetChatCompletionsAsync(ILogger logger, ChatCompletionsRequest request, CancellationToken cancellationToken)
         {
             var filePath = GetCacheFilePath(request);
             var result = await ReadResponseFromFile(filePath);
@@ -42,6 +43,11 @@ namespace NewsMixer.Transforms.OpenAiSummary
             options.Messages.Add(new ChatRequestSystemMessage(request.UserMessage));
 
             var response = await _client.GetChatCompletionsAsync(options, cancellationToken);
+
+            if (logger.IsEnabled(LogLevel.Debug))
+            {
+                logger.LogDebug("transformer openapi usage totalTokens={totalTokens}...", response.Value.Usage.TotalTokens);
+            }
 
             result = await WriteResponseToFileAsync(filePath, request, response);
             return result;

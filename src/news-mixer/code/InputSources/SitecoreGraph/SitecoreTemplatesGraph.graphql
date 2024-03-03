@@ -44,7 +44,9 @@
     }
     results {
       url {
-        value: path
+        path
+        hostName
+        scheme
       }
       title: field(name: $titleField) {
         value

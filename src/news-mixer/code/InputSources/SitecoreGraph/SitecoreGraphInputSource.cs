@@ -1,4 +1,5 @@
-﻿using GraphQL;
+﻿using AngleSharp.Dom;
+using GraphQL;
 using NewsMixer.Models;
 using System.Runtime.CompilerServices;
 
@@ -32,7 +33,8 @@ namespace NewsMixer.InputSources.SitecoreGraph
                         Content = item.Content.Value,
                         Date = DateTime.UtcNow,
                         OriginalLanguage = _config.Language,
-                        Categories = ["woop", "test"]
+                        Categories = ["woop", "test"],
+                        Url = new Uri($"{item.Url.Scheme}://{item.Url.Hostname}{item.Url.Path}")
                     };
                 }
             } while (response.Data.Search.PageInfo.HasNext);
@@ -45,7 +47,9 @@ namespace NewsMixer.InputSources.SitecoreGraph
 
     public record PageInfoDto(string EndCursor, bool HasNext);
 
-    public record ResultDto(FieldDto Title, FieldDto Content, FieldDto Url);
+    public record ResultDto(FieldDto Title, FieldDto Content, UrlFieldDto Url);
 
     public record FieldDto(string Value);
+
+    public record UrlFieldDto(string Path, string Hostname, string Scheme);
 }
