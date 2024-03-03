@@ -35,16 +35,11 @@ namespace NewsMixer
             return this;
         }
 
-        public class PipelineStream
+        public class PipelineStream(ILogger logger)
         {
-            public PipelineStream(ILogger logger)
-            {
-                _logger = logger;
-            }
 
             private readonly List<ITransform> _transforms = [];
             private readonly List<IOutput> _outputs = [];
-            private readonly ILogger _logger;
 
             public PipelineStream AddTransform(params ITransform[] transforms)
             {
@@ -62,39 +57,46 @@ namespace NewsMixer
 
             public async Task Execute(NewsItem input, CancellationToken token)
             {
-                if (_logger.IsEnabled(LogLevel.Debug))
+                if (logger.IsEnabled(LogLevel.Debug))
                 {
-                    _logger.LogDebug("executing stream...");
+                    logger.LogDebug("executing stream...");
                 }
 
                 var itm = input;
-                
+
                 foreach (var t in _transforms)
                 {
-                    itm = await t.Execute(itm, _logger, token);
+                    itm = await t.Execute(itm, logger, token);
                 }
 
-                await Parallel.ForEachAsync(_outputs, async (o, ics) => await o.Execute(itm, ics));
+                foreach (var output in _outputs)
+                {
+                    await output.Execute(itm, token);
+                }
             }
         }
 
-        public async Task Execute(CancellationToken token) => await Parallel.ForEachAsync(_inputs, token, async (source, ics) =>
-                                                                       {
-                                                                           if (_logger.IsEnabled(LogLevel.Debug))
-                                                                           {
-                                                                               _logger.LogDebug("executing source...");
-                                                                           }
+        public async Task Execute(CancellationToken token)
+        {
 
-                                                                           var enumerable = source.Execute(ics);
+            foreach (var source in _inputs)
+            {
+                if (_logger.IsEnabled(LogLevel.Debug))
+                {
+                    _logger.LogDebug("executing source...");
+                }
 
-                                                                           await foreach (var t in enumerable)
-                                                                           {
-                                                                               await Parallel.ForEachAsync(_streams, async (stream, ics2) =>
-                                                                               {
-                                                                                   await stream.Execute(t, ics2);
-                                                                               });
-                                                                           }
-                                                                       });
+                var enumerable = source.Execute(token);
+
+                await foreach (var t in enumerable)
+                {
+                    foreach (var stream in _streams)
+                    {
+                        await stream.Execute(t, token);
+                    }
+                }
+            }
+        }
     }
 
     public interface IPipelineConfig
