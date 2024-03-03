@@ -1,0 +1,32 @@
+services:
+  mssql-init:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-mssql-init:${VERSION:-latest}
+    build:
+      context: ./docker/build/mssql-init
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-mssql-init:${SITECORE_VERSION}
+        HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
+
+  id:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-id7:${VERSION:-latest}
+    build:
+      context: ./docker/build/id
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-id7:${SITECORE_VERSION}
+
+  cm:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-xm1-cm:${VERSION:-latest}
+    build:
+      context: ./docker/deploy/platform
+      args:
+        PARENT_IMAGE: ${SITECORE_DOCKER_REGISTRY}sitecore-xm1-cm:${SITECORE_VERSION}
+        DELTA_ASSET_IMAGE: ${DELTA_ASSET_IMAGE}
+        TOOLS_IMAGE: ${TOOLS_IMAGE}
+        MANAGEMENT_SERVICES_IMAGE: ${MANAGEMENT_SERVICES_IMAGE}
+        HEADLESS_SERVICES_IMAGE: ${HEADLESS_SERVICES_IMAGE}
+
+  news-mixer:
+    image: ${REGISTRY}${COMPOSE_PROJECT_NAME}-news-mixer:${VERSION:-latest}
+    build:
+      dockerfile: src/news-mixer/Dockerfile
+      

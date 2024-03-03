@@ -1,0 +1,18 @@
+{
+  "namespace": "sample-content",
+  "references": [
+    "system"
+  ],
+  "items": {
+    "includes": [
+      {
+        "name": "templates",
+        "path": "/sitecore/templates/Project/NewsMixer"
+      },
+      {
+        "name": "content",
+        "path": "/sitecore/content/Home"
+      }
+    ]
+  }
+}
