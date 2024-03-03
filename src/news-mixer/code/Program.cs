@@ -34,9 +34,9 @@ var config = new SitecoreTemplatesGraphConfiguration
 {
     EndPoint = new UsernameAndPasswordEndPointConfiguration
     {
-        ApiUri = new Uri("https://cm.team451.localhost/sitecore/api/graph/edge/"),
+        ApiUri = new Uri(Environment.GetEnvironmentVariable("SITECORE_GRAPHQL_ENDPOINT_URL") ?? "https://cm.team451.localhost/sitecore/api/graph/edge/"),
         ApiKey = "{F0107448-59B2-40D0-9158-B6F33F17E9C4}",
-        AuthenticationTokenUri = new Uri("https://id.team451.localhost/connect/token"),
+        AuthenticationTokenUri = new Uri(Environment.GetEnvironmentVariable("SITECORE_ID_CONNECT_TOKEN_URL") ?? "https://id.team451.localhost/connect/token"),
         ClientId = "newsmixer",
         Username = "sitecore\\admin",
         Password = "b"

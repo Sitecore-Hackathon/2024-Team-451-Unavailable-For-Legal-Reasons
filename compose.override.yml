@@ -181,9 +181,13 @@ services:
   news-mixer:
     depends_on:
       cm:
+        condition: service_started
+      id:
         condition: service_healthy
     volumes:
       - ./out:c:\out
     environment:
       OPENAI_APIKEY: ${OPENAI_APIKEY}
       OUTPUT_DIR: c:\out
+      SITECORE_GRAPHQL_ENDPOINT_URL: http://cm/sitecore/api/graph/edge/
+      SITECORE_ID_CONNECT_TOKEN_URL: http://id/connect/token
