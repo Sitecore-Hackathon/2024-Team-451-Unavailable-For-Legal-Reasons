@@ -113,6 +113,8 @@ Currently the implemented scenario of **News Mixer** relies on developer configu
 
 When running the program five RSS files are created with the configured AI behavior and the output is also sent to the console.
 
+![Screenshot of console app](docs/images/screenshot-console.png)
+
 The implemented scenario relies on content from **Sitecore XM** and the [Sitecore Documentation](https://doc.sitecore.com) through its **Sitecore Search** instance. New content can be added by logging into the Sitecore CM instance and creating it. Alternatively a strategy like the one used to seed the sample data for the solution can be used ``src/tools/Invoke-SampleDataSeed.ps1``.
 
 The newsletters are configured in **Sitecore Send** - screenshots of the configuration and the mail sent for two of the feeds are placed in [NewsletterConfigurationAndMail](docs/pdfs/NewsletterConfigurationAndMail.pdf) the same configuration should be imitated on an accessible **Sitecore Send** account if to try out the entire flow.
@@ -125,7 +127,7 @@ The RSS feeds are published as Github Pages on the following URL's:
 - [Poet, weekly](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-week-9.rss)
 - [Poet, weekly, Danish](https://sitecore-hackathon.github.io/2024-Team-451-Unavailable-For-Legal-Reasons/poet-weekly-week-9-da.rss)
 
-Please note that the published feeds are not updated as part of the solution, they are generated as files in ``out/`` if run through Docker as described in section [Startup](https://github.com/Sitecore-Hackathon/2024-Team-451-Unavailable-For-Legal-Reasons/tree/dev?tab=readme-ov-file#startup) above. So if to try the entire scenario with other content than the provided feeds - new feeds must be published to a location that can be pointed to in the **Sitecore Send** configuration.
+Please note that the published feeds are not updated as part of the solution, they are generated as files in ``out/feeds/`` if run through Docker as described in section [Startup](https://github.com/Sitecore-Hackathon/2024-Team-451-Unavailable-For-Legal-Reasons/tree/dev?tab=readme-ov-file#startup) above. So if to try the entire scenario with other content than the provided feeds - new feeds must be published to a location that can be pointed to in the **Sitecore Send** configuration.
 
 ## Comments
 
